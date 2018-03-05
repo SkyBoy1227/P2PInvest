@@ -1,8 +1,10 @@
-package com.sky.app.p2pinvest;
+package com.sky.app.p2pinvest.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+
+import com.sky.app.p2pinvest.R;
 
 /**
  * Created with Android Studio.

@@ -62,12 +62,15 @@ public class MainActivity extends AppCompatActivity {
     private InvestFragment investFragment;
     private MeFragment meFragment;
     private MoreFragment moreFragment;
+    private FragmentTransaction transaction;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        // 默认显示首页
+        setSelect(0);
     }
 
     @OnClick({R.id.ll_main_home, R.id.ll_main_invest, R.id.ll_main_me, R.id.ll_main_more})
@@ -101,7 +104,9 @@ public class MainActivity extends AppCompatActivity {
      */
     private void setSelect(int position) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction = fragmentManager.beginTransaction();
+        hideFragments();
+        resetTag();
         switch (position) {
             case 0:
                 if (homeFragment == null) {
@@ -110,6 +115,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 // 显示当前的Fragment
                 transaction.show(homeFragment);
+                // 改变选中项的图片和文本颜色的变化
+                ivMainHome.setImageResource(R.drawable.bottom02);
+                tvMainHome.setTextColor(getResources().getColor(R.color.home_back_selected));
                 break;
             case 1:
                 if (investFragment == null) {
@@ -118,6 +126,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 // 显示当前的Fragment
                 transaction.show(investFragment);
+                // 改变选中项的图片和文本颜色的变化
+                ivMainInvest.setImageResource(R.drawable.bottom04);
+                tvMainInvest.setTextColor(getResources().getColor(R.color.home_back_selected));
                 break;
             case 2:
                 if (meFragment == null) {
@@ -126,6 +137,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 // 显示当前的Fragment
                 transaction.show(meFragment);
+                // 改变选中项的图片和文本颜色的变化
+                ivMainMe.setImageResource(R.drawable.bottom06);
+                tvMainMe.setTextColor(getResources().getColor(R.color.home_back_selected01));
                 break;
             case 3:
                 if (moreFragment == null) {
@@ -134,10 +148,47 @@ public class MainActivity extends AppCompatActivity {
                 }
                 // 显示当前的Fragment
                 transaction.show(moreFragment);
+                // 改变选中项的图片和文本颜色的变化
+                ivMainMore.setImageResource(R.drawable.bottom08);
+                tvMainMore.setTextColor(getResources().getColor(R.color.home_back_selected));
                 break;
             default:
                 break;
         }
+        // 提交事务
         transaction.commit();
+    }
+
+    /**
+     * 重置ImageView和TextView的显示
+     */
+    private void resetTag() {
+        ivMainHome.setImageResource(R.drawable.bottom01);
+        ivMainInvest.setImageResource(R.drawable.bottom03);
+        ivMainMe.setImageResource(R.drawable.bottom05);
+        ivMainMore.setImageResource(R.drawable.bottom07);
+
+        tvMainHome.setTextColor(getResources().getColor(R.color.home_back_unselected));
+        tvMainInvest.setTextColor(getResources().getColor(R.color.home_back_unselected));
+        tvMainMe.setTextColor(getResources().getColor(R.color.home_back_unselected));
+        tvMainMore.setTextColor(getResources().getColor(R.color.home_back_unselected));
+    }
+
+    /**
+     * 隐藏所有的fragment显示
+     */
+    private void hideFragments() {
+        if (homeFragment != null) {
+            transaction.hide(homeFragment);
+        }
+        if (investFragment != null) {
+            transaction.hide(investFragment);
+        }
+        if (meFragment != null) {
+            transaction.hide(meFragment);
+        }
+        if (moreFragment != null) {
+            transaction.hide(moreFragment);
+        }
     }
 }

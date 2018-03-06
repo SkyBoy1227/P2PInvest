@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.sky.app.p2pinvest.R;
+import com.sky.app.p2pinvest.common.ActivityManager;
 import com.sky.app.p2pinvest.fragment.HomeFragment;
 import com.sky.app.p2pinvest.fragment.InvestFragment;
 import com.sky.app.p2pinvest.fragment.MeFragment;
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        ActivityManager.getInstance().addActivity(this);
         rgMainBottom.setOnCheckedChangeListener((group, checkedId) -> {
             FragmentManager fragmentManager = getSupportFragmentManager();
             transaction = fragmentManager.beginTransaction();

@@ -11,6 +11,7 @@ import android.view.animation.AlphaAnimation;
 import android.widget.RelativeLayout;
 
 import com.sky.app.p2pinvest.R;
+import com.sky.app.p2pinvest.common.ActivityManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +41,7 @@ public class WelcomeActivity extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_welcome);
         ButterKnife.bind(this);
+        ActivityManager.getInstance().addActivity(this);
         // 启动动画
         showAnimation();
     }
@@ -84,7 +86,9 @@ public class WelcomeActivity extends AppCompatActivity {
             Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
             startActivity(intent);
             // 销毁当前页面
-            finish();
+//            finish();
+            // 结束activity的显示，并从栈空间中移除
+            ActivityManager.getInstance().removeActivity(this);
         }, 3000);
         // 启动动画
         rlWelcome.startAnimation(alphaAnimation);

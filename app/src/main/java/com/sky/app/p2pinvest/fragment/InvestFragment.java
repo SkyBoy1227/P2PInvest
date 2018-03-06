@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sky.app.p2pinvest.R;
+import com.sky.app.p2pinvest.util.UIUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,7 +38,8 @@ public class InvestFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = View.inflate(getActivity(), R.layout.fragment_invest, null);
+//        View view = View.inflate(getActivity(), R.layout.fragment_invest, null);
+        View view = UIUtils.getView(R.layout.fragment_invest);
         unbinder = ButterKnife.bind(this, view);
         initTitle();
         return view;

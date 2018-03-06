@@ -31,6 +31,7 @@ import butterknife.OnClick;
  * @version ${VERSION}
  */
 public class MainActivity extends AppCompatActivity {
+
     @BindView(R.id.fl_main)
     FrameLayout flMain;
     @BindView(R.id.iv_main_home)

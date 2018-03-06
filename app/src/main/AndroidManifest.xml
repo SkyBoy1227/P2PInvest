@@ -3,6 +3,7 @@
     package="com.sky.app.p2pinvest">
 
     <application
+        android:name=".common.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/app_icon"
         android:label="@string/app_name"

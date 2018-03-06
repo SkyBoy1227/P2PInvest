@@ -1,15 +1,20 @@
 package com.sky.app.p2pinvest.activity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sky.app.p2pinvest.R;
 import com.sky.app.p2pinvest.fragment.HomeFragment;
@@ -31,6 +36,11 @@ import butterknife.OnClick;
  * @version ${VERSION}
  */
 public class MainActivity extends AppCompatActivity {
+
+    /**
+     * 重置返回
+     */
+    private static final int WHAT_RESET_BACK = 1;
 
     @BindView(R.id.fl_main)
     FrameLayout flMain;
@@ -64,6 +74,26 @@ public class MainActivity extends AppCompatActivity {
     private MeFragment meFragment;
     private MoreFragment moreFragment;
     private FragmentTransaction transaction;
+
+    /**
+     * 返回的标志
+     */
+    private boolean flag = true;
+
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case WHAT_RESET_BACK:
+                    flag = true;
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -191,5 +221,35 @@ public class MainActivity extends AppCompatActivity {
         if (moreFragment != null) {
             transaction.hide(moreFragment);
         }
+    }
+
+    /**
+     * 重写onKeyUp()，实现连续两次点击方可退出当前应用
+     *
+     * @param keyCode
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && flag) {
+            Toast.makeText(this, "再按一次，退出当前应用", Toast.LENGTH_SHORT).show();
+            flag = false;
+            handler.sendEmptyMessageDelayed(WHAT_RESET_BACK, 2000);
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
+    }
+
+    /**
+     * 为了避免出现内存泄漏，需要在onDestroy()中，移除所有未被执行的消息
+     */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // 方式一：移除指定id的所有的消息
+//        handler.removeMessages(WHAT_RESET_BACK);
+        // 方式二：移除所有未被执行的消息
+        handler.removeCallbacksAndMessages(null);
     }
 }

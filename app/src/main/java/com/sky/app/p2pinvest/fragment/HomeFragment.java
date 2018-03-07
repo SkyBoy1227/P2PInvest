@@ -9,8 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.sky.app.p2pinvest.R;
+import com.sky.app.p2pinvest.common.AppNetConfig;
 import com.sky.app.p2pinvest.util.UIUtils;
 
 import butterknife.BindView;
@@ -44,7 +48,30 @@ public class HomeFragment extends Fragment {
         View view = UIUtils.getView(R.layout.fragment_home);
         unbinder = ButterKnife.bind(this, view);
         initTitle();
+        initData();
         return view;
+    }
+
+    /**
+     * 初始化数据
+     */
+    private void initData() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        // 访问的url
+        String url = AppNetConfig.INDEX;
+        client.post(url,new AsyncHttpResponseHandler(){
+            @Override
+            public void onSuccess(String content) {
+                // 200：响应成功
+                // 解析json数据
+            }
+
+            @Override
+            public void onFailure(Throwable error, String content) {
+                // 响应失败
+                Toast.makeText(UIUtils.getContext(), "联网获取数据失败", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     /**

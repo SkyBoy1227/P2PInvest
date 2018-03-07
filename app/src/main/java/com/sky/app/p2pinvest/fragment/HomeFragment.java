@@ -11,11 +11,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.sky.app.p2pinvest.R;
+import com.sky.app.p2pinvest.bean.Image;
+import com.sky.app.p2pinvest.bean.Index;
+import com.sky.app.p2pinvest.bean.Product;
 import com.sky.app.p2pinvest.common.AppNetConfig;
 import com.sky.app.p2pinvest.util.UIUtils;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,14 +63,24 @@ public class HomeFragment extends Fragment {
      * 初始化数据
      */
     private void initData() {
+        Index index = new Index();
         AsyncHttpClient client = new AsyncHttpClient();
         // 访问的url
         String url = AppNetConfig.INDEX;
-        client.post(url,new AsyncHttpResponseHandler(){
+        client.post(url, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(String content) {
                 // 200：响应成功
-                // 解析json数据
+                // 解析json数据 GSON / FASTJSON
+                JSONObject jsonObject = JSON.parseObject(content);
+                // 解析json对象数据
+                String proInfo = jsonObject.getString("proInfo");
+                Product product = JSON.parseObject(proInfo, Product.class);
+                // 解析json数组数据
+                String imageArr = jsonObject.getString("imageArr");
+                List<Image> images = JSON.parseArray(imageArr, Image.class);
+                index.proInfo = product;
+                index.imageArr = images;
             }
 
             @Override

@@ -55,7 +55,8 @@
                     android:background="@drawable/home_attribute_bg"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="本息保障" />
+                    android:text="本息保障"
+                    android:textColor="@color/home_back_unselected" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -66,7 +67,9 @@
                     android:background="@drawable/home_attribute_bg"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="每日计息" />
+
+                    android:text="每日计息"
+                    android:textColor="@color/home_back_unselected" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -75,7 +78,9 @@
                     android:background="@drawable/home_attribute_bg"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="高额收益" />
+
+                    android:text="高额收益"
+                    android:textColor="@color/home_back_unselected" />
             </LinearLayout>
 
             <Button

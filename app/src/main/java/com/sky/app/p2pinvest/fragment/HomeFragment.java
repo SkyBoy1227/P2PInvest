@@ -38,7 +38,9 @@ public class HomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        // context实例：activity
 //        View view = View.inflate(getActivity(), R.layout.fragment_home, null);
+        // context实例：application
         View view = UIUtils.getView(R.layout.fragment_home);
         unbinder = ButterKnife.bind(this, view);
         initTitle();

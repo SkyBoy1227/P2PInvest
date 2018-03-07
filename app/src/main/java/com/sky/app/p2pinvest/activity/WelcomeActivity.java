@@ -41,6 +41,7 @@ public class WelcomeActivity extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_welcome);
         ButterKnife.bind(this);
+        // 将当前的activity添加到ActivityManager中
         ActivityManager.getInstance().addActivity(this);
         // 启动动画
         showAnimation();

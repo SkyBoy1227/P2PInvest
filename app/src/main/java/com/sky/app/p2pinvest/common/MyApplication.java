@@ -47,5 +47,8 @@ public class MyApplication extends Application {
         mainThread = Thread.currentThread();
         // 获取当前线程的id
         mainThreadId = android.os.Process.myTid();
+
+        // 设置未捕获异常的处理器
+//        CrashHandler.getInstance().init();
     }
 }

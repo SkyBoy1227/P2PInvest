@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -136,10 +135,10 @@ public class MainActivity extends AppCompatActivity {
         rgMainBottom.check(R.id.rb_main_home);
         // 模拟异常
 //        try {
-            String str = null;
-            if (str.equals("abc")) {
-                Log.e("TAG", "abc");
-            }
+//            String str = null;
+//            if (str.equals("abc")) {
+//                Log.e("TAG", "abc");
+//            }
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }

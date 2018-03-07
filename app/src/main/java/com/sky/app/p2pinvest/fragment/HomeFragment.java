@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.sky.app.p2pinvest.bean.Index;
 import com.sky.app.p2pinvest.bean.Product;
 import com.sky.app.p2pinvest.common.AppNetConfig;
 import com.sky.app.p2pinvest.util.UIUtils;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -52,6 +54,7 @@ public class HomeFragment extends Fragment {
     TextView tvHomeProduct;
     @BindView(R.id.tv_main_year_rate)
     TextView tvMainYearRate;
+    private Index index;
 
     @Nullable
     @Override
@@ -70,7 +73,7 @@ public class HomeFragment extends Fragment {
      * 初始化数据
      */
     private void initData() {
-        Index index = new Index();
+        index = new Index();
         AsyncHttpClient client = new AsyncHttpClient();
         // 访问的url
         String url = AppNetConfig.INDEX;
@@ -92,6 +95,9 @@ public class HomeFragment extends Fragment {
                 // 更新数据
                 tvHomeProduct.setText(product.name);
                 tvMainYearRate.setText(product.yearRate + "%");
+
+                // 设置ViewPager
+                vpHome.setAdapter(new MyAdapter());
             }
 
             @Override
@@ -115,5 +121,40 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    class MyAdapter extends PagerAdapter {
+
+        @Override
+        public int getCount() {
+            List<Image> images = index.imageArr;
+            return images == null ? 0 : images.size();
+        }
+
+        @Override
+        public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
+            return view == object;
+        }
+
+        @NonNull
+        @Override
+        public Object instantiateItem(@NonNull ViewGroup container, int position) {
+            ImageView imageView = new ImageView(getActivity());
+            // 1.imageView显示图片
+            String imaurl = index.imageArr.get(position).IMAURL;
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            // 使用Picasso联网下载图片
+            Picasso.with(getActivity())
+                    .load(imaurl)
+                    .into(imageView);
+            // 2.imageView添加到容器中
+            container.addView(imageView);
+            return imageView;
+        }
+
+        @Override
+        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+            container.removeView((View) object);
+        }
     }
 }

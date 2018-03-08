@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -55,12 +56,12 @@ public class RoundProgress extends View {
     /**
      * 圆环的最大值
      */
-    private int max = 100;
+    private float max = 100;
 
     /**
      * 圆环的进度
      */
-    private int progress = 50;
+    private float progress = 60;
 
     /**
      * 画笔
@@ -105,7 +106,9 @@ public class RoundProgress extends View {
         paint.setStrokeWidth(roundWidth);
         canvas.drawCircle(cx, cy, radius, paint);
         // 2.绘制圆弧
-
+        RectF rectF = new RectF(roundWidth / 2, roundWidth / 2, width - roundWidth / 2, width - roundWidth / 2);
+        paint.setColor(roundProgressColor);
+        canvas.drawArc(rectF, 0, progress / max * 360, false, paint);
         // 3.绘制文本
     }
 }

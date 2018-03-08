@@ -1,11 +1,10 @@
 package com.sky.app.p2pinvest.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +23,13 @@ import com.sky.app.p2pinvest.bean.Product;
 import com.sky.app.p2pinvest.common.AppNetConfig;
 import com.sky.app.p2pinvest.util.UIUtils;
 import com.squareup.picasso.Picasso;
-import com.viewpagerindicator.CirclePageIndicator;
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.Transformer;
+import com.youth.banner.loader.ImageLoader;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -48,15 +52,13 @@ public class HomeFragment extends Fragment {
     TextView tvTitle;
     @BindView(R.id.iv_title_settings)
     ImageView ivTitleSettings;
-    Unbinder unbinder;
-    @BindView(R.id.vp_home)
-    ViewPager vpHome;
+    @BindView(R.id.banner)
+    Banner banner;
     @BindView(R.id.tv_home_product)
     TextView tvHomeProduct;
     @BindView(R.id.tv_main_year_rate)
     TextView tvMainYearRate;
-    @BindView(R.id.cp_main_indicator)
-    CirclePageIndicator cpMainIndicator;
+    Unbinder unbinder;
 
     private Index index;
 
@@ -100,10 +102,29 @@ public class HomeFragment extends Fragment {
                 tvHomeProduct.setText(product.name);
                 tvMainYearRate.setText(product.yearRate + "%");
 
-                // 设置ViewPager
-                vpHome.setAdapter(new MyAdapter());
-                // 设置小圆圈的显示
-                cpMainIndicator.setViewPager(vpHome);
+                // 设置banner样式
+                banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE);
+                // 设置图片加载器
+                banner.setImageLoader(new GlideImageLoader());
+                // 设置图片集合
+                ArrayList<String> imageUrls = new ArrayList<>(index.imageArr.size());
+                for (int i = 0; i < index.imageArr.size(); i++) {
+                    imageUrls.add(index.imageArr.get(i).IMAURL);
+                }
+                banner.setImages(imageUrls);
+                // 设置banner动画效果
+                banner.setBannerAnimation(Transformer.DepthPage);
+                // 设置标题集合（当banner样式有显示title时）
+                List<String> titles = Arrays.asList("分享砍学费", "人脉总动员", "想不到你是这样的APP", "购物节，爱不单行");
+                banner.setBannerTitles(titles);
+                // 设置自动轮播，默认为true
+                banner.isAutoPlay(true);
+                // 设置轮播时间
+                banner.setDelayTime(1500);
+                // 设置指示器位置（当banner模式中有指示器时）
+                banner.setIndicatorGravity(BannerConfig.CENTER);
+                // banner设置方法全部调用完毕时最后调用
+                banner.start();
             }
 
             @Override
@@ -129,38 +150,22 @@ public class HomeFragment extends Fragment {
         unbinder.unbind();
     }
 
-    class MyAdapter extends PagerAdapter {
+    class GlideImageLoader extends ImageLoader {
+
+        private static final long serialVersionUID = -7477483748590727208L;
 
         @Override
-        public int getCount() {
-            List<Image> images = index.imageArr;
-            return images == null ? 0 : images.size();
-        }
+        public void displayImage(Context context, Object path, ImageView imageView) {
+            /**
+             注意：
+             1.图片加载器由自己选择，这里不限制，只是提供几种使用方法
+             2.返回的图片路径为Object类型，由于不能确定你到底使用的那种图片加载器，
+             传输的到的是什么格式，那么这种就使用Object接收和返回，你只需要强转成你传输的类型就行，
+             切记不要胡乱强转！
+             */
 
-        @Override
-        public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-            return view == object;
-        }
-
-        @NonNull
-        @Override
-        public Object instantiateItem(@NonNull ViewGroup container, int position) {
-            ImageView imageView = new ImageView(getActivity());
-            // 1.imageView显示图片
-            String imaurl = index.imageArr.get(position).IMAURL;
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            // 使用Picasso联网下载图片
-            Picasso.with(getActivity())
-                    .load(imaurl)
-                    .into(imageView);
-            // 2.imageView添加到容器中
-            container.addView(imageView);
-            return imageView;
-        }
-
-        @Override
-        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-            container.removeView((View) object);
+            // Picasso 加载图片简单用法
+            Picasso.with(context).load((String) path).into(imageView);
         }
     }
 }

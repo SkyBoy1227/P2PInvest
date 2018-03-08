@@ -1,6 +1,7 @@
 package com.sky.app.p2pinvest.ui;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -10,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.sky.app.p2pinvest.R;
 import com.sky.app.p2pinvest.util.UIUtils;
 
 /**
@@ -22,47 +24,84 @@ import com.sky.app.p2pinvest.util.UIUtils;
  * @version ${VERSION}
  */
 public class RoundProgress extends View {
-    /**
-     * 当前视图的宽度 = 高度
-     */
-    private int width;
-
     //设置绘制的圆环及文本的属性
+
+//    /**
+//     * 圆环的颜色
+//     */
+//    private int roundColor = Color.GRAY;
+//
+//    /**
+//     * 圆弧的颜色
+//     */
+//    private int roundProgressColor = Color.RED;
+//
+//    /**
+//     * 文本的颜色
+//     */
+//    private int textColor = Color.BLUE;
+//
+//    /**
+//     * 圆环的宽度
+//     */
+//    private float roundWidth = UIUtils.dp2px(10);
+//
+//    /**
+//     * 文本的字体大小
+//     */
+//    private float textSize = UIUtils.dp2px(20);
+//
+//    /**
+//     * 圆环的最大值
+//     */
+//    private int max = 100;
+//
+//    /**
+//     * 圆环的进度
+//     */
+//    private int progress = 60;
+
+    // 使用自定义属性来初始化如下的变量
 
     /**
      * 圆环的颜色
      */
-    private int roundColor = Color.GRAY;
+    private int roundColor;
 
     /**
      * 圆弧的颜色
      */
-    private int roundProgressColor = Color.RED;
+    private int roundProgressColor;
 
     /**
      * 文本的颜色
      */
-    private int textColor = Color.BLUE;
+    private int textColor;
 
     /**
      * 圆环的宽度
      */
-    private float roundWidth = UIUtils.dp2px(10);
+    private float roundWidth;
 
     /**
      * 文本的字体大小
      */
-    private int textSize = UIUtils.dp2px(20);
+    private float textSize;
 
     /**
      * 圆环的最大值
      */
-    private int max = 100;
+    private int max;
 
     /**
      * 圆环的进度
      */
-    private int progress = 60;
+    private int progress;
+
+    /**
+     * 当前视图的宽度 = 高度
+     */
+    private int width;
 
     /**
      * 画笔
@@ -83,6 +122,22 @@ public class RoundProgress extends View {
         paint = new Paint();
         // 抗锯齿
         paint.setAntiAlias(true);
+
+        // 获取自定义的属性
+        // 1.获取TypeArray的对象(调用两个参数的方法）
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RoundProgress);
+
+        // 2.取出所有的自定义属性
+        roundColor = typedArray.getColor(R.styleable.RoundProgress_roundColor, Color.GRAY);
+        roundProgressColor = typedArray.getColor(R.styleable.RoundProgress_roundProgressColor, Color.RED);
+        textColor = typedArray.getColor(R.styleable.RoundProgress_textColor, Color.GREEN);
+        roundWidth = typedArray.getDimension(R.styleable.RoundProgress_roundWidth, UIUtils.dp2px(10));
+        textSize = typedArray.getDimension(R.styleable.RoundProgress_textSize, UIUtils.dp2px(20));
+        max = typedArray.getInteger(R.styleable.RoundProgress_max, 100);
+        progress = typedArray.getInteger(R.styleable.RoundProgress_progress, 50);
+
+        // 3.回收处理
+        typedArray.recycle();
     }
 
     @Override

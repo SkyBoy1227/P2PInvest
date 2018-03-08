@@ -24,6 +24,7 @@ import com.sky.app.p2pinvest.bean.Product;
 import com.sky.app.p2pinvest.common.AppNetConfig;
 import com.sky.app.p2pinvest.util.UIUtils;
 import com.squareup.picasso.Picasso;
+import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.List;
 
@@ -54,6 +55,9 @@ public class HomeFragment extends Fragment {
     TextView tvHomeProduct;
     @BindView(R.id.tv_main_year_rate)
     TextView tvMainYearRate;
+    @BindView(R.id.cp_main_indicator)
+    CirclePageIndicator cpMainIndicator;
+
     private Index index;
 
     @Nullable
@@ -98,6 +102,8 @@ public class HomeFragment extends Fragment {
 
                 // 设置ViewPager
                 vpHome.setAdapter(new MyAdapter());
+                // 设置小圆圈的显示
+                cpMainIndicator.setViewPager(vpHome);
             }
 
             @Override

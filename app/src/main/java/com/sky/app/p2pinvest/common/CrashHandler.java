@@ -104,7 +104,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         String message = e.getMessage();
         // 收集具体的客户的手机、系统的信息
         String phoneMessage = Build.DEVICE + " : " + Build.MODEL + " : " + Build.PRODUCT + " : " + Build.VERSION.SDK_INT;
-        //发送给后台此异常信息
+        // 发送给后台此异常信息
         singleThreadPool.execute(() -> {
             // 需要按照指定的url，访问后台的sevlet,将异常信息发送过去
             Log.e("TAG", "exception = " + message);

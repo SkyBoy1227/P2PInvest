@@ -34,4 +34,5 @@ dependencies {
     implementation files('libs/android-async-http-master.jar')
     implementation 'com.alibaba:fastjson:1.2.46'
     implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation project(':ViewPagerIndicator')
 }

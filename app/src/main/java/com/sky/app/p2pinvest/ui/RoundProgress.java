@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -56,12 +57,12 @@ public class RoundProgress extends View {
     /**
      * 圆环的最大值
      */
-    private float max = 100;
+    private int max = 100;
 
     /**
      * 圆环的进度
      */
-    private float progress = 60;
+    private int progress = 60;
 
     /**
      * 画笔
@@ -105,10 +106,25 @@ public class RoundProgress extends View {
         // 设置画笔的宽度
         paint.setStrokeWidth(roundWidth);
         canvas.drawCircle(cx, cy, radius, paint);
+
         // 2.绘制圆弧
         RectF rectF = new RectF(roundWidth / 2, roundWidth / 2, width - roundWidth / 2, width - roundWidth / 2);
         paint.setColor(roundProgressColor);
-        canvas.drawArc(rectF, 0, progress / max * 360, false, paint);
+        canvas.drawArc(rectF, 0, progress * 360 / max, false, paint);
+
         // 3.绘制文本
+        String text = progress * 100 / max + "%";
+        // 设置画笔
+        paint.setColor(textColor);
+        paint.setTextSize(textSize);
+        paint.setStrokeWidth(0);
+        // 创建了一个矩形，此时矩形没有具体的宽度和高度
+        Rect rect = new Rect();
+        // 此时的矩形的宽度和高度即为正好包裹文本的矩形的宽高
+        paint.getTextBounds(text, 0, text.length(), rect);
+        // 获取左下角顶点的坐标
+        float x = width / 2 - rect.width() / 2;
+        float y = width / 2 + rect.height() / 2;
+        canvas.drawText(text, x, y, paint);
     }
 }

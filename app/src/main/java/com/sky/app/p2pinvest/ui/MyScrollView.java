@@ -3,8 +3,11 @@ package com.sky.app.p2pinvest.ui;
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ScrollView;
 
 /**
@@ -30,6 +33,11 @@ public class MyScrollView extends ScrollView {
      */
     private Rect normal = new Rect();
 
+    /**
+     * 是否结束动画
+     */
+    private boolean isFinishAnimation = true;
+
     public MyScrollView(Context context) {
         super(context);
     }
@@ -53,7 +61,8 @@ public class MyScrollView extends ScrollView {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (childView != null) {
+        if (childView != null && isFinishAnimation) {
+            // 获取当前的Y轴坐标
             int eventY = (int) ev.getY();
             switch (ev.getAction()) {
                 case MotionEvent.ACTION_DOWN:
@@ -75,6 +84,34 @@ public class MyScrollView extends ScrollView {
                     lastY = eventY;
                     break;
                 case MotionEvent.ACTION_UP:
+                    // 使用平移动画
+                    int translateY = childView.getBottom() - normal.bottom;
+                    TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, 0, -translateY);
+                    translateAnimation.setDuration(200);
+                    translateAnimation.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+                            isFinishAnimation = false;
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            isFinishAnimation = true;
+                            // 清除动画
+                            childView.clearAnimation();
+                            // 重新布局
+                            childView.layout(normal.left, normal.top, normal.right, normal.bottom);
+                            // 清除normal的数据
+                            normal.setEmpty();
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
+                    // 启动动画
+                    childView.startAnimation(translateAnimation);
                     break;
                 default:
                     break;
@@ -95,6 +132,8 @@ public class MyScrollView extends ScrollView {
         int childViewMeasuredHeight = childView.getMeasuredHeight();
         // 获取布局的高度
         int scrollViewMeasuredHeight = this.getMeasuredHeight();
+        Log.e("TAG", "childViewMeasuredHeight = " + childViewMeasuredHeight);
+        Log.e("TAG", "scrollViewMeasuredHeight = " + scrollViewMeasuredHeight);
         // dy >= 0
         int dy = childViewMeasuredHeight - scrollViewMeasuredHeight;
         if (scrollY <= 0 || scrollY >= dy) {

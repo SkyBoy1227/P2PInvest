@@ -7,7 +7,7 @@
 
     <include layout="@layout/common_title" />
 
-    <ScrollView
+    <com.sky.app.p2pinvest.ui.MyScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -130,5 +130,5 @@
                 android:text="风险保障金由硅谷银行监管"
                 android:textColor="@color/home_back_unselected" />
         </LinearLayout>
-    </ScrollView>
+    </com.sky.app.p2pinvest.ui.MyScrollView>
 </LinearLayout>

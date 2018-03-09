@@ -3,6 +3,13 @@ package com.sky.app.p2pinvest.common;
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
+import android.support.test.espresso.core.internal.deps.guava.util.concurrent.ThreadFactoryBuilder;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -37,6 +44,11 @@ public class MyApplication extends Application {
      */
     public static int mainThreadId;
 
+    /**
+     * 线程池
+     */
+    public static ExecutorService singleThreadPool;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -47,6 +59,13 @@ public class MyApplication extends Application {
         mainThread = Thread.currentThread();
         // 获取当前线程的id
         mainThreadId = android.os.Process.myTid();
+
+        // 手动创建线程池
+        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
+                .setNameFormat("my-pool-%d").build();
+        singleThreadPool = new ThreadPoolExecutor(5, 10,
+                100L, TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<>(1024), namedThreadFactory, new ThreadPoolExecutor.AbortPolicy());
 
         // 设置未捕获异常的处理器
 //        CrashHandler.getInstance().init();

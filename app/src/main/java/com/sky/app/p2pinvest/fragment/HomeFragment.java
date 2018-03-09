@@ -2,6 +2,7 @@ package com.sky.app.p2pinvest.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,8 @@ import com.sky.app.p2pinvest.bean.Image;
 import com.sky.app.p2pinvest.bean.Index;
 import com.sky.app.p2pinvest.bean.Product;
 import com.sky.app.p2pinvest.common.AppNetConfig;
+import com.sky.app.p2pinvest.common.MyApplication;
+import com.sky.app.p2pinvest.ui.RoundProgress;
 import com.sky.app.p2pinvest.util.UIUtils;
 import com.squareup.picasso.Picasso;
 import com.youth.banner.Banner;
@@ -56,6 +59,8 @@ public class HomeFragment extends Fragment {
     Banner banner;
     @BindView(R.id.tv_home_product)
     TextView tvHomeProduct;
+    @BindView(R.id.rp_home)
+    RoundProgress rpHome;
     @BindView(R.id.tv_main_year_rate)
     TextView tvMainYearRate;
     Unbinder unbinder;
@@ -101,6 +106,16 @@ public class HomeFragment extends Fragment {
                 // 更新数据
                 tvHomeProduct.setText(product.name);
                 tvMainYearRate.setText(product.yearRate + "%");
+                // 当前总进度
+                int progress = Integer.parseInt(product.progress);
+                MyApplication.singleThreadPool.execute(() -> {
+                    rpHome.setMax(100);
+                    for (int i = 0; i < progress; i++) {
+                        rpHome.setProgress(i + 1);
+                        rpHome.postInvalidate();
+                        SystemClock.sleep(20);
+                    }
+                });
 
                 // 设置banner样式
                 banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE);

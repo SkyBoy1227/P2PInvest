@@ -2,17 +2,10 @@ package com.sky.app.p2pinvest.common;
 
 import android.os.Build;
 import android.os.Looper;
-import android.support.test.espresso.core.internal.deps.guava.util.concurrent.ThreadFactoryBuilder;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.sky.app.p2pinvest.util.UIUtils;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created with Android Studio.
@@ -30,11 +23,6 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
      * 系统默认的处理未捕获异常的处理器
      */
     private Thread.UncaughtExceptionHandler defaultUncaughtExceptionHandler;
-
-    /**
-     * 线程池
-     */
-    private ExecutorService singleThreadPool;
 
     /**
      * 单例模式：（懒汉式）
@@ -67,13 +55,8 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     @Override
     public void uncaughtException(Thread t, Throwable e) {
 //        Log.e("TAG", "亲，出现了未捕获的异常！" + e.getMessage());
-        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
-                .setNameFormat("demo-pool-%d").build();
-        singleThreadPool = new ThreadPoolExecutor(5, 10,
-                100L, TimeUnit.MILLISECONDS,
-                new LinkedBlockingQueue<>(1024), namedThreadFactory, new ThreadPoolExecutor.AbortPolicy());
 
-        singleThreadPool.execute(() -> {
+        MyApplication.singleThreadPool.execute(() -> {
             // prepare()和loop()之间的操作就是在主线程中执行的！
             // 在android系统中，默认情况下，一个线程中是不可以调用Looper进行消息的处理的。除非是主线程
             Looper.prepare();
@@ -105,11 +88,11 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         // 收集具体的客户的手机、系统的信息
         String phoneMessage = Build.DEVICE + " : " + Build.MODEL + " : " + Build.PRODUCT + " : " + Build.VERSION.SDK_INT;
         // 发送给后台此异常信息
-        singleThreadPool.execute(() -> {
+        MyApplication.singleThreadPool.execute(() -> {
             // 需要按照指定的url，访问后台的sevlet,将异常信息发送过去
             Log.e("TAG", "exception = " + message);
             Log.e("TAG", "phoneMessage = " + phoneMessage);
         });
-        singleThreadPool.shutdown();
+        MyApplication.singleThreadPool.shutdown();
     }
 }

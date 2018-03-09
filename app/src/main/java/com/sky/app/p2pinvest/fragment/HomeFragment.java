@@ -1,14 +1,8 @@
 package com.sky.app.p2pinvest.fragment;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +16,7 @@ import com.sky.app.p2pinvest.bean.Image;
 import com.sky.app.p2pinvest.bean.Index;
 import com.sky.app.p2pinvest.bean.Product;
 import com.sky.app.p2pinvest.common.AppNetConfig;
+import com.sky.app.p2pinvest.common.BaseFragment;
 import com.sky.app.p2pinvest.common.MyApplication;
 import com.sky.app.p2pinvest.ui.RoundProgress;
 import com.sky.app.p2pinvest.util.UIUtils;
@@ -36,8 +31,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * Created with Android Studio.
@@ -48,7 +41,7 @@ import butterknife.Unbinder;
  * @author 晏琦云
  * @version ${VERSION}
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends BaseFragment {
     @BindView(R.id.iv_title_back)
     ImageView ivTitleBack;
     @BindView(R.id.tv_title)
@@ -63,27 +56,14 @@ public class HomeFragment extends Fragment {
     RoundProgress rpHome;
     @BindView(R.id.tv_main_year_rate)
     TextView tvMainYearRate;
-    Unbinder unbinder;
 
     private Index index;
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // context实例：activity
-//        View view = View.inflate(getActivity(), R.layout.fragment_home, null);
-        // context实例：application
-        View view = UIUtils.getView(R.layout.fragment_home);
-        unbinder = ButterKnife.bind(this, view);
-        initTitle();
-        initData();
-        return view;
-    }
 
     /**
      * 初始化数据
      */
-    private void initData() {
+    @Override
+    protected void initData() {
         index = new Index();
         AsyncHttpClient client = new AsyncHttpClient();
         // 访问的url
@@ -153,16 +133,16 @@ public class HomeFragment extends Fragment {
     /**
      * 初始化Title
      */
-    private void initTitle() {
+    @Override
+    protected void initTitle() {
         ivTitleBack.setVisibility(View.GONE);
         tvTitle.setText("首页");
         ivTitleSettings.setVisibility(View.GONE);
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
+    protected int getLayoutId() {
+        return R.layout.fragment_home;
     }
 
     class GlideImageLoader extends ImageLoader {

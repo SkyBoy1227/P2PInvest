@@ -2,6 +2,7 @@ package com.sky.app.p2pinvest.util;
 
 import android.content.Context;
 import android.os.Handler;
+import android.os.Process;
 import android.view.View;
 
 import com.sky.app.p2pinvest.common.MyApplication;
@@ -65,5 +66,29 @@ public class UIUtils {
         float density = getContext().getResources().getDisplayMetrics().density;
         // 实现四舍五入
         return (int) (px / density + 0.5f);
+    }
+
+    /**
+     * 保证runnable中的操作在主线程中执行
+     *
+     * @param runnable
+     */
+    public static void runOnUiThread(Runnable runnable) {
+        if (isMainThread()) {
+            runnable.run();
+        } else {
+            UIUtils.getHandler().post(runnable);
+        }
+    }
+
+    /**
+     * 判断当前线程是否是主线程
+     *
+     * @return
+     */
+    private static boolean isMainThread() {
+        // 当前线程的id
+        int currentThreadId = Process.myTid();
+        return currentThreadId == MyApplication.mainThreadId;
     }
 }

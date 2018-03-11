@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.loopj.android.http.RequestParams;
 import com.sky.app.p2pinvest.R;
 import com.sky.app.p2pinvest.common.BaseFragment;
 
@@ -25,6 +26,16 @@ public class MeFragment extends BaseFragment {
     TextView tvTitle;
     @BindView(R.id.iv_title_settings)
     ImageView ivTitleSettings;
+
+    @Override
+    protected RequestParams getParams() {
+        return null;
+    }
+
+    @Override
+    protected String getUrl() {
+        return null;
+    }
 
     @Override
     protected void initData(String content) {

@@ -92,11 +92,14 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.rb_main_home:
                     // 首页
                     if (homeFragment == null) {
+                        // 创建对象以后，并不会马上调用生命周期方法，而是在commit()方法之后，方才调用
                         homeFragment = new HomeFragment();
                         transaction.add(R.id.fl_main, homeFragment);
                     }
                     // 显示当前的Fragment
                     transaction.show(homeFragment);
+                    // 错误的调用位置
+//                    homeFragment.requestInternet();
                     break;
                 case R.id.rb_main_invest:
                     // 投资

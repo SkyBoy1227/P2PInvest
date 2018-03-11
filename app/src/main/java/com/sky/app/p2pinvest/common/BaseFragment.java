@@ -25,6 +25,7 @@ import butterknife.Unbinder;
  */
 public abstract class BaseFragment extends Fragment {
     Unbinder unbinder;
+    private LoadingPage loadingPage;
 
     @Nullable
     @Override
@@ -33,7 +34,7 @@ public abstract class BaseFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         initTitle();
         initData();*/
-        LoadingPage loadingPage = new LoadingPage(container.getContext()) {
+        loadingPage = new LoadingPage(container.getContext()) {
 
             @Override
             protected int layoutId() {
@@ -58,6 +59,17 @@ public abstract class BaseFragment extends Fragment {
             }
         };
         return loadingPage;
+    }
+
+    /**
+     * 为了保证loadingPage不为null
+     *
+     * @param savedInstanceState
+     */
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        loadingPage.requestInternet();
     }
 
     /**

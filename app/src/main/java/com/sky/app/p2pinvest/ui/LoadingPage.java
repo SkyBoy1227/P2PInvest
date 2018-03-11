@@ -139,33 +139,42 @@ public abstract class LoadingPage extends FrameLayout {
      * 实现联网加载数据
      */
     public void requestInternet() {
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.post(url(), params(), new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(String content) {
-                if (TextUtils.isEmpty(content)) {
-                    // "" or null
+        String url = url();
+        if (TextUtils.isEmpty(url)) {
+            resultState = ResultState.SUCCESS;
+            resultState.setContent("");
+            loadData();
+            return;
+        }
+        UIUtils.getHandler().postDelayed(() -> {
+            AsyncHttpClient client = new AsyncHttpClient();
+            client.post(url(), params(), new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(String content) {
+                    if (TextUtils.isEmpty(content)) {
+                        // "" or null
 //                    stateCurrent = STATE_EMPTY;
-                    resultState = ResultState.EMPTY;
-                    resultState.setContent("");
-                } else {
+                        resultState = ResultState.EMPTY;
+                        resultState.setContent("");
+                    } else {
 //                    stateCurrent = STATE_SUCCESS;
-                    resultState = ResultState.SUCCESS;
-                    resultState.setContent(content);
+                        resultState = ResultState.SUCCESS;
+                        resultState.setContent(content);
+                    }
+//                showSafePage();
+                    loadData();
                 }
-//                showSafePage();
-                loadData();
-            }
 
-            @Override
-            public void onFailure(Throwable error, String content) {
+                @Override
+                public void onFailure(Throwable error, String content) {
 //                stateCurrent = STATE_ERROR;
-                resultState = ResultState.ERROR;
-                resultState.setContent("");
+                    resultState = ResultState.ERROR;
+                    resultState.setContent("");
 //                showSafePage();
-                loadData();
-            }
-        });
+                    loadData();
+                }
+            });
+        }, 2000);
     }
 
     /**

@@ -8,8 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.loopj.android.http.RequestParams;
 import com.sky.app.p2pinvest.ui.LoadingPage;
 
+import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
@@ -37,14 +39,47 @@ public abstract class BaseFragment extends Fragment {
             protected int layoutId() {
                 return getLayoutId();
             }
+
+            @Override
+            protected void onSuccess(ResultState resultState, View successView) {
+                unbinder = ButterKnife.bind(BaseFragment.this, successView);
+                initTitle();
+                initData(resultState.getContent());
+            }
+
+            @Override
+            protected RequestParams params() {
+                return getParams();
+            }
+
+            @Override
+            protected String url() {
+                return getUrl();
+            }
         };
         return loadingPage;
     }
 
     /**
-     * 初始化数据
+     * 提供联网的请求参数
+     *
+     * @return
      */
-    protected abstract void initData();
+    protected abstract RequestParams getParams();
+
+    /**
+     * 提供联网的请求地址
+     *
+     * @return
+     */
+    protected abstract String getUrl();
+
+    /**
+     * 初始化数据
+     *
+     * @param content
+     */
+    protected abstract void initData(String content);
 
     /**
      * 初始化Title

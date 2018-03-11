@@ -27,7 +27,7 @@ public class MoreFragment extends BaseFragment {
     ImageView ivTitleSettings;
 
     @Override
-    protected void initData() {
+    protected void initData(String content) {
 
     }
 

@@ -61,9 +61,10 @@ public class HomeFragment extends BaseFragment {
 
     /**
      * 初始化数据
+     * @param content
      */
     @Override
-    protected void initData() {
+    protected void initData(String content) {
         index = new Index();
         AsyncHttpClient client = new AsyncHttpClient();
         // 访问的url

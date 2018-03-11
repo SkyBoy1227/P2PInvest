@@ -39,7 +39,7 @@ public abstract class LoadingPage extends FrameLayout {
     private static final int STATE_EMPTY = 3;
 
     /**
-     * 加载成功
+     * 加载成功，且有数据
      */
     private static final int STATE_SUCCESS = 4;
 
@@ -122,5 +122,10 @@ public abstract class LoadingPage extends FrameLayout {
         successView.setVisibility(stateCurrent == STATE_SUCCESS ? VISIBLE : INVISIBLE);
     }
 
+    /**
+     * 提供布局
+     *
+     * @return
+     */
     protected abstract int layoutId();
 }

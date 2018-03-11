@@ -8,9 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sky.app.p2pinvest.util.UIUtils;
+import com.sky.app.p2pinvest.ui.LoadingPage;
 
-import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
@@ -28,11 +27,18 @@ public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = UIUtils.getView(getLayoutId());
+        /*View view = UIUtils.getView(getLayoutId());
         unbinder = ButterKnife.bind(this, view);
         initTitle();
-        initData();
-        return view;
+        initData();*/
+        LoadingPage loadingPage = new LoadingPage(container.getContext()) {
+
+            @Override
+            protected int layoutId() {
+                return getLayoutId();
+            }
+        };
+        return loadingPage;
     }
 
     /**

@@ -89,7 +89,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         String phoneMessage = Build.DEVICE + " : " + Build.MODEL + " : " + Build.PRODUCT + " : " + Build.VERSION.SDK_INT;
         // 发送给后台此异常信息
         MyApplication.singleThreadPool.execute(() -> {
-            // 需要按照指定的url，访问后台的sevlet,将异常信息发送过去
+            // 需要按照指定的url，访问后台的servlet,将异常信息发送过去
             Log.e("TAG", "exception = " + message);
             Log.e("TAG", "phoneMessage = " + phoneMessage);
         });

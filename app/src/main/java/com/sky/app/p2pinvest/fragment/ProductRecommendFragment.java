@@ -13,7 +13,7 @@ import com.sky.app.p2pinvest.common.BaseFragment;
  * @author 晏琦云
  * @version ${VERSION}
  */
-public class ProductRecommondFragment extends BaseFragment {
+public class ProductRecommendFragment extends BaseFragment {
     @Override
     protected RequestParams getParams() {
         return null;
@@ -36,6 +36,6 @@ public class ProductRecommondFragment extends BaseFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_product_recommond;
+        return R.layout.fragment_product_recommend;
     }
 }

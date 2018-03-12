@@ -2,6 +2,7 @@ package com.sky.app.p2pinvest.fragment;
 
 import android.content.Context;
 import android.os.SystemClock;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -73,55 +74,57 @@ public class HomeFragment extends BaseFragment {
      */
     @Override
     protected void initData(String content) {
-        index = new Index();
-        // 解析json数据 GSON / FASTJSON
-        JSONObject jsonObject = JSON.parseObject(content);
-        // 解析json对象数据
-        String proInfo = jsonObject.getString("proInfo");
-        Product product = JSON.parseObject(proInfo, Product.class);
-        // 解析json数组数据
-        String imageArr = jsonObject.getString("imageArr");
-        List<Image> images = JSON.parseArray(imageArr, Image.class);
-        index.proInfo = product;
-        index.imageArr = images;
+        if (!TextUtils.isEmpty(content)) {
+            index = new Index();
+            // 解析json数据 GSON / FASTJSON
+            JSONObject jsonObject = JSON.parseObject(content);
+            // 解析json对象数据
+            String proInfo = jsonObject.getString("proInfo");
+            Product product = JSON.parseObject(proInfo, Product.class);
+            // 解析json数组数据
+            String imageArr = jsonObject.getString("imageArr");
+            List<Image> images = JSON.parseArray(imageArr, Image.class);
+            index.proInfo = product;
+            index.imageArr = images;
 
-        // 更新数据
-        tvHomeProduct.setText(product.name);
-        tvMainYearRate.setText(product.yearRate + "%");
-        // 当前总进度
-        int progress = Integer.parseInt(product.progress);
-        MyApplication.singleThreadPool.execute(() -> {
-            rpHome.setMax(100);
-            for (int i = 0; i < progress; i++) {
-                rpHome.setProgress(i + 1);
-                rpHome.postInvalidate();
-                SystemClock.sleep(20);
+            // 更新数据
+            tvHomeProduct.setText(product.name);
+            tvMainYearRate.setText(product.yearRate + "%");
+            // 当前总进度
+            int progress = Integer.parseInt(product.progress);
+            MyApplication.singleThreadPool.execute(() -> {
+                rpHome.setMax(100);
+                for (int i = 0; i < progress; i++) {
+                    rpHome.setProgress(i + 1);
+                    rpHome.postInvalidate();
+                    SystemClock.sleep(20);
+                }
+            });
+
+            // 设置banner样式
+            banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE);
+            // 设置图片加载器
+            banner.setImageLoader(new GlideImageLoader());
+            // 设置图片集合
+            ArrayList<String> imageUrls = new ArrayList<>(index.imageArr.size());
+            for (int i = 0; i < index.imageArr.size(); i++) {
+                imageUrls.add(index.imageArr.get(i).IMAURL);
             }
-        });
-
-        // 设置banner样式
-        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE);
-        // 设置图片加载器
-        banner.setImageLoader(new GlideImageLoader());
-        // 设置图片集合
-        ArrayList<String> imageUrls = new ArrayList<>(index.imageArr.size());
-        for (int i = 0; i < index.imageArr.size(); i++) {
-            imageUrls.add(index.imageArr.get(i).IMAURL);
+            banner.setImages(imageUrls);
+            // 设置banner动画效果
+            banner.setBannerAnimation(Transformer.DepthPage);
+            // 设置标题集合（当banner样式有显示title时）
+            List<String> titles = Arrays.asList("分享砍学费", "人脉总动员", "想不到你是这样的APP", "购物节，爱不单行");
+            banner.setBannerTitles(titles);
+            // 设置自动轮播，默认为true
+            banner.isAutoPlay(true);
+            // 设置轮播时间
+            banner.setDelayTime(1500);
+            // 设置指示器位置（当banner模式中有指示器时）
+            banner.setIndicatorGravity(BannerConfig.CENTER);
+            // banner设置方法全部调用完毕时最后调用
+            banner.start();
         }
-        banner.setImages(imageUrls);
-        // 设置banner动画效果
-        banner.setBannerAnimation(Transformer.DepthPage);
-        // 设置标题集合（当banner样式有显示title时）
-        List<String> titles = Arrays.asList("分享砍学费", "人脉总动员", "想不到你是这样的APP", "购物节，爱不单行");
-        banner.setBannerTitles(titles);
-        // 设置自动轮播，默认为true
-        banner.isAutoPlay(true);
-        // 设置轮播时间
-        banner.setDelayTime(1500);
-        // 设置指示器位置（当banner模式中有指示器时）
-        banner.setIndicatorGravity(BannerConfig.CENTER);
-        // banner设置方法全部调用完毕时最后调用
-        banner.start();
     }
 
     /**

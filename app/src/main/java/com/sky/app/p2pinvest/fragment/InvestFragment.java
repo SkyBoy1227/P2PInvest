@@ -1,5 +1,6 @@
 package com.sky.app.p2pinvest.fragment;
 
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -7,6 +8,7 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 import com.sky.app.p2pinvest.R;
 import com.sky.app.p2pinvest.common.BaseFragment;
+import com.viewpagerindicator.TabPageIndicator;
 
 import butterknife.BindView;
 
@@ -26,6 +28,10 @@ public class InvestFragment extends BaseFragment {
     TextView tvTitle;
     @BindView(R.id.iv_title_settings)
     ImageView ivTitleSettings;
+    @BindView(R.id.tabpage_invest)
+    TabPageIndicator tabpageInvest;
+    @BindView(R.id.vp_invest)
+    ViewPager vpInvest;
 
     @Override
     protected RequestParams getParams() {
@@ -39,7 +45,9 @@ public class InvestFragment extends BaseFragment {
 
     @Override
     protected void initData(String content) {
+        // 1.加载三个不同的Fragment：ProductListFragment,ProductRecommondFragment,ProductHotFragment
 
+        // 2.ViewPager设置三个Fragment的显示
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.sky.app.p2pinvest.fragment;
 
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 import com.sky.app.p2pinvest.R;
 import com.sky.app.p2pinvest.common.BaseFragment;
+import com.sky.app.p2pinvest.util.UIUtils;
 import com.viewpagerindicator.TabPageIndicator;
 
 import java.util.ArrayList;
@@ -58,7 +60,7 @@ public class InvestFragment extends BaseFragment {
         // 2.ViewPager设置三个Fragment的显示
         MyAdapter adapter = new MyAdapter(getFragmentManager());
         vpInvest.setAdapter(adapter);
-        // 将TabPagerIndicator与ViewPager关联
+        // 将TabPageIndicator与ViewPager关联
         tabpageInvest.setViewPager(vpInvest);
     }
 
@@ -110,6 +112,27 @@ public class InvestFragment extends BaseFragment {
         @Override
         public int getCount() {
             return fragmentList == null ? 0 : fragmentList.size();
+        }
+
+        /**
+         * 提供TabPageIndicator的显示内容
+         *
+         * @param position
+         * @return
+         */
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+            // 方式一：
+//            if (position == 0) {
+//                return "全部理财";
+//            } else if (position == 1) {
+//                return "推荐理财"
+//            } else if (position == 2) {
+//                return "热门理财";
+//            }
+            // 方式二：
+            return UIUtils.getStringArr(R.array.invest_tab)[position];
         }
     }
 }

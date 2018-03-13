@@ -8,7 +8,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.loopj.android.http.RequestParams;
 import com.sky.app.p2pinvest.R;
-import com.sky.app.p2pinvest.adapter.ProductAdapter2;
+import com.sky.app.p2pinvest.adapter.ProductAdapter3;
 import com.sky.app.p2pinvest.bean.Product;
 import com.sky.app.p2pinvest.common.AppNetConfig;
 import com.sky.app.p2pinvest.common.BaseFragment;
@@ -69,9 +69,13 @@ public class ProductListFragment extends BaseFragment {
 //                // 显示列表
 //                lvProductList.setAdapter(adapter1);
                 // 方式三：抽取了，但是没有使用ViewHolder，getView()优化不够
-                ProductAdapter2 adapter2 = new ProductAdapter2(productList);
+//                ProductAdapter2 adapter2 = new ProductAdapter2(productList);
+//                // 显示列表
+//                lvProductList.setAdapter(adapter2);
+                // 方式四：抽取了，最好的方式.（可以作为选择）
+                ProductAdapter3 adapter3 = new ProductAdapter3(productList, getActivity());
                 // 显示列表
-                lvProductList.setAdapter(adapter2);
+                lvProductList.setAdapter(adapter3);
             }
         }
     }

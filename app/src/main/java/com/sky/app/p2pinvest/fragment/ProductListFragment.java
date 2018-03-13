@@ -36,7 +36,11 @@ public class ProductListFragment extends BaseFragment {
 
     @Override
     protected void initData(String content) {
-
+        // 方式一：使得当前的textView获取焦点
+//        tvProductTitle.setFocusable(true);
+//        tvProductTitle.setFocusableInTouchMode(true);
+//        tvProductTitle.requestFocus();
+        // 方式二：提供TextView的子类，重写isFocused(),返回true即可。
     }
 
     @Override

@@ -4,11 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <com.sky.app.p2pinvest.ui.MyTextView
         android:id="@+id/tv_product_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="P2P金融壕运当头，首投最高返现188元！！"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:text="P2P金融壕运当头，首投返现最高达188元！！"
         android:textColor="@color/round_red_common"
         android:textSize="25sp" />
 

@@ -1,5 +1,6 @@
 package com.sky.app.p2pinvest.fragment;
 
+import android.text.TextUtils;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -7,6 +8,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.loopj.android.http.RequestParams;
 import com.sky.app.p2pinvest.R;
+import com.sky.app.p2pinvest.adapter.ProductAdapter;
 import com.sky.app.p2pinvest.bean.Product;
 import com.sky.app.p2pinvest.common.AppNetConfig;
 import com.sky.app.p2pinvest.common.BaseFragment;
@@ -18,6 +20,7 @@ import butterknife.BindView;
 /**
  * Created with Android Studio.
  * 描述: 全部理财产品页面
+ * ListView的使用：①ListView ②BaseAdapter ③Item Layout ④集合数据（联网获取数据）
  * Date: 2018/3/12
  * Time: 17:03
  *
@@ -49,11 +52,18 @@ public class ProductListFragment extends BaseFragment {
 //        tvProductTitle.setFocusableInTouchMode(true);
 //        tvProductTitle.requestFocus();
         // 方式二：提供TextView的子类，重写isFocused(),返回true即可。
-        JSONObject jsonObject = JSON.parseObject(content);
-        boolean success = jsonObject.getBoolean("success");
-        if (success) {
-            String data = jsonObject.getString("data");
-            productList = JSON.parseArray(data, Product.class);
+
+        if (!TextUtils.isEmpty(content)) {
+            JSONObject jsonObject = JSON.parseObject(content);
+            boolean success = jsonObject.getBoolean("success");
+            if (success) {
+                String data = jsonObject.getString("data");
+                // 获取集合数据
+                productList = JSON.parseArray(data, Product.class);
+                // 方式一
+                ProductAdapter adapter = new ProductAdapter(productList);
+                lvProductList.setAdapter(adapter);
+            }
         }
     }
 

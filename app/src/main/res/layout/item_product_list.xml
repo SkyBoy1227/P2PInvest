@@ -183,7 +183,7 @@
                         android:background="@color/divider_line" />
 
                     <TextView
-                        android:id="@+id/p_minzouzi"
+                        android:id="@+id/p_minTouMoney"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
@@ -230,7 +230,7 @@
                         android:background="@color/divider_line" />
 
                     <TextView
-                        android:id="@+id/p_minnum"
+                        android:id="@+id/p_memberNum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
@@ -250,13 +250,13 @@
             android:layout_marginLeft="20dp"
             sky:roundColor="@android:color/darker_gray"
             sky:roundProgressColor="#18B4ED"
-            sky:roundWith="5dp"
+            sky:roundWidth="5dp"
             sky:textColor="#18b4ed"
             sky:textSize="12sp" />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@color/text_progress" />
+        android:layout_height="1dp"
+        android:background="@color/divider_line" />
 </LinearLayout>

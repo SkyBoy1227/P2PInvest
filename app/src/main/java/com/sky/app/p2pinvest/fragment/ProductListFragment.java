@@ -8,7 +8,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.loopj.android.http.RequestParams;
 import com.sky.app.p2pinvest.R;
-import com.sky.app.p2pinvest.adapter.ProductAdapter;
+import com.sky.app.p2pinvest.adapter.ProductAdapter1;
 import com.sky.app.p2pinvest.bean.Product;
 import com.sky.app.p2pinvest.common.AppNetConfig;
 import com.sky.app.p2pinvest.common.BaseFragment;
@@ -60,9 +60,14 @@ public class ProductListFragment extends BaseFragment {
                 String data = jsonObject.getString("data");
                 // 获取集合数据
                 productList = JSON.parseArray(data, Product.class);
-                // 方式一
-                ProductAdapter adapter = new ProductAdapter(productList);
-                lvProductList.setAdapter(adapter);
+                // 方式一：
+//                ProductAdapter adapter = new ProductAdapter(productList);
+//                // 显示列表
+//                lvProductList.setAdapter(adapter);
+                // 方式二：
+                ProductAdapter1 adapter1 = new ProductAdapter1(productList);
+                // 显示列表
+                lvProductList.setAdapter(adapter1);
             }
         }
     }

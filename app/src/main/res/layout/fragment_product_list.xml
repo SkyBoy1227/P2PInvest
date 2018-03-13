@@ -5,9 +5,15 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/tv_product_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="全部理财"
-        android:textColor="@color/title_text"
-        android:textSize="20sp" />
+        android:text="P2P金融壕运当头，首投最高返现188元！！"
+        android:textColor="@color/round_red_common"
+        android:textSize="25sp" />
+
+    <ListView
+        android:id="@+id/lv_product_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

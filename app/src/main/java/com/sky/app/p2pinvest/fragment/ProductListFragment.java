@@ -1,8 +1,13 @@
 package com.sky.app.p2pinvest.fragment;
 
+import android.widget.ListView;
+import android.widget.TextView;
+
 import com.loopj.android.http.RequestParams;
 import com.sky.app.p2pinvest.R;
 import com.sky.app.p2pinvest.common.BaseFragment;
+
+import butterknife.BindView;
 
 /**
  * Created with Android Studio.
@@ -14,6 +19,11 @@ import com.sky.app.p2pinvest.common.BaseFragment;
  * @version ${VERSION}
  */
 public class ProductListFragment extends BaseFragment {
+    @BindView(R.id.tv_product_title)
+    TextView tvProductTitle;
+    @BindView(R.id.lv_product_list)
+    ListView lvProductList;
+
     @Override
     protected RequestParams getParams() {
         return null;

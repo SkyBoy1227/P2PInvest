@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Process;
 import android.view.View;
+import android.widget.Toast;
 
 import com.sky.app.p2pinvest.common.MyApplication;
 
@@ -90,5 +91,15 @@ public class UIUtils {
         // 当前线程的id
         int currentThreadId = Process.myTid();
         return currentThreadId == MyApplication.mainThreadId;
+    }
+
+    /**
+     * 吐司
+     *
+     * @param message
+     * @param isLengthLong
+     */
+    public static void toast(String message, boolean isLengthLong) {
+        Toast.makeText(getContext(), message, isLengthLong ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT).show();
     }
 }

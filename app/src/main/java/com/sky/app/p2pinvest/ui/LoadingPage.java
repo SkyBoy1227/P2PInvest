@@ -65,6 +65,7 @@ public abstract class LoadingPage extends FrameLayout {
     private ViewGroup.LayoutParams params;
 
     private ResultState resultState;
+    private Context context;
 
     public LoadingPage(@NonNull Context context) {
         this(context, null);
@@ -76,6 +77,7 @@ public abstract class LoadingPage extends FrameLayout {
 
     public LoadingPage(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.context = context;
         init();
     }
 
@@ -122,7 +124,10 @@ public abstract class LoadingPage extends FrameLayout {
         errorView.setVisibility(stateCurrent == STATE_ERROR ? VISIBLE : INVISIBLE);
         emptyView.setVisibility(stateCurrent == STATE_EMPTY ? VISIBLE : INVISIBLE);
         if (successView == null) {
-            successView = UIUtils.getView(layoutId());
+            // 加载布局使用的是Application
+//            successView = UIUtils.getView(layoutId());
+            // 加载布局使用的是Activity
+            successView = View.inflate(context, layoutId(), null);
             addView(successView, params);
         }
         successView.setVisibility(stateCurrent == STATE_SUCCESS ? VISIBLE : INVISIBLE);
@@ -229,7 +234,18 @@ public abstract class LoadingPage extends FrameLayout {
      * 提供枚举类，封装联网以后的状态值和数据
      */
     public enum ResultState {
-        ERROR(1), EMPTY(2), SUCCESS(3);
+        /**
+         * 加载失败
+         */
+        ERROR(1),
+        /**
+         * 加载成功，但数据为空
+         */
+        EMPTY(2),
+        /**
+         * 加载成功，且有数据
+         */
+        SUCCESS(3);
 
         private int state;
         private String content;

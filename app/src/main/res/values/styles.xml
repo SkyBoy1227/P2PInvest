@@ -9,7 +9,7 @@
     </style>
 
     <!--自定义viewpagerIndicator样式-->
-    <style name="StyledIndicators" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="StyledIndicators" parent="AppTheme">
         <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
         <item name="android:windowNoTitle">true</item>
     </style>

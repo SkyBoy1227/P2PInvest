@@ -3,9 +3,15 @@ package com.sky.app.p2pinvest.fragment;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.loopj.android.http.RequestParams;
 import com.sky.app.p2pinvest.R;
+import com.sky.app.p2pinvest.bean.Product;
+import com.sky.app.p2pinvest.common.AppNetConfig;
 import com.sky.app.p2pinvest.common.BaseFragment;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -24,6 +30,8 @@ public class ProductListFragment extends BaseFragment {
     @BindView(R.id.lv_product_list)
     ListView lvProductList;
 
+    private List<Product> productList;
+
     @Override
     protected RequestParams getParams() {
         return null;
@@ -31,7 +39,7 @@ public class ProductListFragment extends BaseFragment {
 
     @Override
     protected String getUrl() {
-        return null;
+        return AppNetConfig.PRODUCT;
     }
 
     @Override
@@ -41,6 +49,12 @@ public class ProductListFragment extends BaseFragment {
 //        tvProductTitle.setFocusableInTouchMode(true);
 //        tvProductTitle.requestFocus();
         // 方式二：提供TextView的子类，重写isFocused(),返回true即可。
+        JSONObject jsonObject = JSON.parseObject(content);
+        boolean success = jsonObject.getBoolean("success");
+        if (success) {
+            String data = jsonObject.getString("data");
+            productList = JSON.parseArray(data, Product.class);
+        }
     }
 
     @Override

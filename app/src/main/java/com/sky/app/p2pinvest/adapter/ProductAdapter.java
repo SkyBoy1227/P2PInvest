@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.sky.app.p2pinvest.R;
 import com.sky.app.p2pinvest.bean.Product;
 import com.sky.app.p2pinvest.ui.RoundProgress;
+import com.sky.app.p2pinvest.util.UIUtils;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class ProductAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return productList == null ? 0 : productList.size();
+        return productList == null ? 0 : productList.size() + 1;
     }
 
     @Override
@@ -57,7 +58,21 @@ public class ProductAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Log.e("TAG", "parent = " + parent.getClass().toString());
-        Log.i("TAG", "parent.getContext() = " + parent.getContext());
+        Log.e("TAG", "parent.getContext() = " + parent.getContext());
+
+        int itemType = getItemViewType(position);
+        if (itemType == 0) {
+            TextView textView = new TextView(parent.getContext());
+            textView.setText("与子同舟，奈何覆舟");
+            textView.setTextColor(UIUtils.getColor(R.color.title_text));
+            textView.setTextSize(UIUtils.dp2px(20));
+            return textView;
+        }
+
+        if (position > 3) {
+            position--;
+        }
+
         ViewHolder holder;
         if (convertView == null) {
             convertView = View.inflate(parent.getContext(), R.layout.item_product_list, null);
@@ -77,6 +92,31 @@ public class ProductAdapter extends BaseAdapter {
         holder.pYearRate.setText(product.yearRate);
         holder.pProgress.setProgress(Integer.parseInt(product.progress));
         return convertView;
+    }
+
+    /**
+     * 不同的position位置上，显示的具体的item的type值
+     *
+     * @param position
+     * @return
+     */
+    @Override
+    public int getItemViewType(int position) {
+        if (position == 3) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+    /**
+     * 返回不同类型的item的个数
+     *
+     * @return
+     */
+    @Override
+    public int getViewTypeCount() {
+        return 2;
     }
 
     static class ViewHolder {

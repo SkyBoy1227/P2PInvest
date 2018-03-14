@@ -70,6 +70,7 @@ public abstract class MyBaseAdapter3<T> extends BaseAdapter {
     /**
      * 提供Holder
      *
+     * @param context
      * @return
      */
     protected abstract BaseHolder<T> getHolder(Context context);

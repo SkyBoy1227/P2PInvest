@@ -70,6 +70,19 @@ public class ProductRecommendFragment extends BaseFragment {
 
         StellarAdapter adapter = new StellarAdapter();
         stellarMap.setAdapter(adapter);
+
+        // 设置stellarMap的内边距
+        int leftPadding = UIUtils.dp2px(10);
+        int topPadding = UIUtils.dp2px(10);
+        int rightPadding = UIUtils.dp2px(10);
+        int bottomPadding = UIUtils.dp2px(10);
+        stellarMap.setInnerPadding(leftPadding, topPadding, rightPadding, bottomPadding);
+
+        // 必须调用如下的两个方法，否则stellarMap不能显示数据
+        // 设置显示的数据在x轴、y轴方向上的稀疏度
+        stellarMap.setRegularity(5, 8);
+        // 设置初始化显示的组别，以及是否需要使用动画
+        stellarMap.setGroup(0, true);
     }
 
     @Override
@@ -138,6 +151,9 @@ public class ProductRecommendFragment extends BaseFragment {
             int green = random.nextInt(211);
             int blue = random.nextInt(211);
             tv.setTextColor(Color.rgb(red, green, blue));
+
+            // 设置TextView的点击事件
+            tv.setOnClickListener(v -> UIUtils.toast(tv.getText().toString(), false));
             return tv;
         }
 

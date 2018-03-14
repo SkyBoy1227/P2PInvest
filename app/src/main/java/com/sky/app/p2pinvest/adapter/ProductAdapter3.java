@@ -16,20 +16,18 @@ import java.util.List;
  * @version ${VERSION}
  */
 public class ProductAdapter3 extends MyBaseAdapter3<Product> {
-    private Context context;
 
     /**
      * 通过构造器初始化集合数据
      *
      * @param list
      */
-    public ProductAdapter3(List<Product> list, Context context) {
+    public ProductAdapter3(List<Product> list) {
         super(list);
-        this.context = context;
     }
 
     @Override
-    protected BaseHolder<Product> getHolder() {
+    protected BaseHolder<Product> getHolder(Context context) {
         return new MyHolder(context);
     }
 }

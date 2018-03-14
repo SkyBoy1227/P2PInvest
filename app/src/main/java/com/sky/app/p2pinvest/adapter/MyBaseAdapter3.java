@@ -1,5 +1,6 @@
 package com.sky.app.p2pinvest.adapter;
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -56,7 +57,7 @@ public abstract class MyBaseAdapter3<T> extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         BaseHolder<T> holder;
         if (convertView == null) {
-            holder = getHolder();
+            holder = getHolder(parent.getContext());
         } else {
             holder = (BaseHolder<T>) convertView.getTag();
         }
@@ -71,5 +72,5 @@ public abstract class MyBaseAdapter3<T> extends BaseAdapter {
      *
      * @return
      */
-    protected abstract BaseHolder<T> getHolder();
+    protected abstract BaseHolder<T> getHolder(Context context);
 }

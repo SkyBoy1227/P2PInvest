@@ -73,7 +73,7 @@ public class ProductListFragment extends BaseFragment {
 //                // 显示列表
 //                lvProductList.setAdapter(adapter2);
                 // 方式四：抽取了，最好的方式.（可以作为选择）
-                ProductAdapter3 adapter3 = new ProductAdapter3(productList, getActivity());
+                ProductAdapter3 adapter3 = new ProductAdapter3(productList);
                 // 显示列表
                 lvProductList.setAdapter(adapter3);
             }

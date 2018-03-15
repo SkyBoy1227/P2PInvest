@@ -6,6 +6,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created with Android Studio.
  * 描述: 自定义流式布局
@@ -16,6 +19,16 @@ import android.view.ViewGroup;
  * @version ${VERSION}
  */
 public class FlowLayout extends ViewGroup {
+    /**
+     * 每一行的子视图的集合构成的集合。
+     */
+    private List<List<View>> allViews = new ArrayList<>();
+
+    /**
+     * 每一行的高度构成的集合。
+     */
+    private List<Integer> allHeights = new ArrayList<>();
+
     public FlowLayout(Context context) {
         this(context, null);
     }
@@ -95,9 +108,63 @@ public class FlowLayout extends ViewGroup {
         setMeasuredDimension(widthMode == MeasureSpec.EXACTLY ? widthSize : width, heightMode == MeasureSpec.EXACTLY ? heightSize : height);
     }
 
+    /**
+     * 重写的目的：给每一个子视图指定显示的位置：childView.layout(l,t,r,b);
+     *
+     * @param changed
+     * @param l
+     * @param t
+     * @param r
+     * @param b
+     */
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        // 一、给两个集合添加元素。
 
+        // 每一行的宽、高值
+        int lineWidth = 0;
+        int lineHeight = 0;
+
+        // 提供一个集合，保存一行childView
+        List<View> lineList = new ArrayList<>();
+
+        // 获取布局的宽度
+        int width = this.getMeasuredWidth();
+
+        int childCount = getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View childView = getChildAt(i);
+            // 获取视图的测量宽高、边距
+            int childWidth = childView.getMeasuredWidth();
+            int childHeight = childView.getMeasuredHeight();
+            MarginLayoutParams mp = (MarginLayoutParams) childView.getLayoutParams();
+
+            if (lineWidth + childWidth + mp.leftMargin + mp.rightMargin <= width) {
+                // 不换行
+                lineList.add(childView);
+                lineWidth += childWidth + mp.leftMargin + mp.rightMargin;
+                lineHeight = Math.max(lineHeight, childHeight + mp.topMargin + mp.bottomMargin);
+            } else {
+                // 换行
+                allViews.add(lineList);
+                allHeights.add(lineHeight);
+
+                // 重置
+                lineWidth = childWidth + mp.leftMargin + mp.rightMargin;
+                lineHeight = childHeight + mp.topMargin + mp.bottomMargin;
+                lineList = new ArrayList<>();
+                lineList.add(childView);
+            }
+
+            // 最后一个元素
+            if (i == childCount - 1) {
+                allViews.add(lineList);
+                allHeights.add(lineHeight);
+            }
+
+        }
+
+        Log.e("TAG", "allVies.size() = " + allViews.size() + " , allHeights.size() = " + allHeights.size());
     }
 
     @Override

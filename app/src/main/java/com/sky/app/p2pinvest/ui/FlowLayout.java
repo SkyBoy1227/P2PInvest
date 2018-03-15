@@ -165,6 +165,33 @@ public class FlowLayout extends ViewGroup {
         }
 
         Log.e("TAG", "allVies.size() = " + allViews.size() + " , allHeights.size() = " + allHeights.size());
+
+        // 二、给每一个子视图指定显示的位置
+        int x = 0;
+        int y = 0;
+        // 每遍历一次，对应一行元素
+        for (int i = 0; i < allViews.size(); i++) {
+            // 取出当前行构成的集合
+            List<View> lineViews = allViews.get(i);
+            for (int j = 0; j < lineViews.size(); j++) {
+                View childView = lineViews.get(j);
+                int childWidth = childView.getMeasuredWidth();
+                int childHeight = childView.getMeasuredHeight();
+
+                MarginLayoutParams mp = (MarginLayoutParams) childView.getLayoutParams();
+
+                int left = x + mp.leftMargin;
+                int top = y + mp.topMargin;
+                int right = left + childWidth;
+                int bottom = top + childHeight;
+
+                childView.layout(left, top, right, bottom);
+
+                x += childWidth + mp.leftMargin + mp.rightMargin;
+            }
+            y += allHeights.get(i);
+            x = 0;
+        }
     }
 
     @Override

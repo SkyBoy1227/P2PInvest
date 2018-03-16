@@ -1,6 +1,7 @@
 package com.sky.app.p2pinvest.fragment;
 
-import android.util.Log;
+import android.graphics.Color;
+import android.os.Build;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -8,7 +9,10 @@ import com.loopj.android.http.RequestParams;
 import com.sky.app.p2pinvest.R;
 import com.sky.app.p2pinvest.common.BaseFragment;
 import com.sky.app.p2pinvest.ui.FlowLayout;
+import com.sky.app.p2pinvest.util.DrawableUtils;
 import com.sky.app.p2pinvest.util.UIUtils;
+
+import java.util.Random;
 
 import butterknife.BindView;
 
@@ -58,8 +62,15 @@ public class ProductHotFragment extends BaseFragment {
             // 设置内边距
             tv.setPadding(padding, padding, padding, padding);
             tv.setTextSize(15);
-            Log.e("TAG", "textSize = " + UIUtils.dp2px(10));
 
+            Random random = new Random();
+            int red = random.nextInt(211);
+            int green = random.nextInt(211);
+            int blue = random.nextInt(211);
+            // 设置背景
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                tv.setBackground(DrawableUtils.getDrawable(Color.rgb(red, green, blue), UIUtils.dp2px(5)));
+            }
             flowHot.addView(tv);
         }
     }

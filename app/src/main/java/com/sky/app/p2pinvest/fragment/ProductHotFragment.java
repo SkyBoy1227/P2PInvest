@@ -67,10 +67,15 @@ public class ProductHotFragment extends BaseFragment {
             int red = random.nextInt(211);
             int green = random.nextInt(211);
             int blue = random.nextInt(211);
-            // 设置背景
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                tv.setBackground(DrawableUtils.getDrawable(Color.rgb(red, green, blue), UIUtils.dp2px(5)));
+                // 设置单一背景
+//                tv.setBackground(DrawableUtils.getDrawable(Color.rgb(red, green, blue), UIUtils.dp2px(5)));
+                // 设置具有选择器功能的背景
+                tv.setBackground(DrawableUtils.getSelector(DrawableUtils.getDrawable(Color.rgb(red, green, blue), UIUtils.dp2px(5)), DrawableUtils.getDrawable(Color.WHITE, UIUtils.dp2px(5))));
             }
+            // 设置textView是可点击的.如果设置了点击事件，则TextView就是可点击的。
+//            tv.setClickable(true);
+            tv.setOnClickListener(v -> UIUtils.toast(tv.getText().toString(), false));
             flowHot.addView(tv);
         }
     }

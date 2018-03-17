@@ -1,27 +1,23 @@
 package com.sky.app.p2pinvest.activity;
 
 import android.annotation.SuppressLint;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.sky.app.p2pinvest.R;
-import com.sky.app.p2pinvest.common.ActivityManager;
+import com.sky.app.p2pinvest.common.BaseActivity;
 import com.sky.app.p2pinvest.fragment.HomeFragment;
 import com.sky.app.p2pinvest.fragment.InvestFragment;
 import com.sky.app.p2pinvest.fragment.MeFragment;
 import com.sky.app.p2pinvest.fragment.MoreFragment;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created with Android Studio.
@@ -32,7 +28,7 @@ import butterknife.ButterKnife;
  * @author 晏琦云
  * @version ${VERSION}
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     /**
      * 重置返回
@@ -78,12 +74,7 @@ public class MainActivity extends AppCompatActivity {
     };
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-        // 将当前的activity添加到ActivityManager中
-        ActivityManager.getInstance().addActivity(this);
+    protected void initData() {
         rgMainBottom.setOnCheckedChangeListener((group, checkedId) -> {
             FragmentManager fragmentManager = getSupportFragmentManager();
             transaction = fragmentManager.beginTransaction();
@@ -145,6 +136,16 @@ public class MainActivity extends AppCompatActivity {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
+    }
+
+    @Override
+    protected void initTitle() {
+
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_main;
     }
 
     /**

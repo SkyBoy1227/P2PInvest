@@ -61,6 +61,12 @@ public class LoginActivity extends BaseActivity {
         return R.layout.activity_login;
     }
 
+    @OnClick(R.id.iv_title_back)
+    public void back() {
+        removeAll();
+        goToActivity(MainActivity.class, null);
+    }
+
     /**
      * 登录按钮的点击事件
      */

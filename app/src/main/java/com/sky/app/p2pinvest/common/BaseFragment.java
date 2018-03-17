@@ -12,7 +12,6 @@ import com.loopj.android.http.RequestParams;
 import com.sky.app.p2pinvest.ui.LoadingPage;
 
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * Created with Android Studio.
@@ -24,7 +23,6 @@ import butterknife.Unbinder;
  * @version ${VERSION}
  */
 public abstract class BaseFragment extends Fragment {
-    Unbinder unbinder;
     private LoadingPage loadingPage;
 
     @Nullable
@@ -43,7 +41,7 @@ public abstract class BaseFragment extends Fragment {
 
             @Override
             protected void onSuccess(ResultState resultState, View successView) {
-                unbinder = ButterKnife.bind(BaseFragment.this, successView);
+                ButterKnife.bind(BaseFragment.this, successView);
                 initTitle();
                 initData(resultState.getContent());
             }
@@ -104,13 +102,4 @@ public abstract class BaseFragment extends Fragment {
      * @return
      */
     protected abstract int getLayoutId();
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (unbinder != null) {
-            unbinder.unbind();
-            unbinder = null;
-        }
-    }
 }

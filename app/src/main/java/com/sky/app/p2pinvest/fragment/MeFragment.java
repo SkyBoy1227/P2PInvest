@@ -12,8 +12,10 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 import com.sky.app.p2pinvest.R;
 import com.sky.app.p2pinvest.activity.LoginActivity;
+import com.sky.app.p2pinvest.bean.User;
 import com.sky.app.p2pinvest.common.BaseActivity;
 import com.sky.app.p2pinvest.common.BaseFragment;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 
@@ -77,7 +79,23 @@ public class MeFragment extends BaseFragment {
             doLogin();
         } else {
             // 已经登录过，则直接加载用户的信息并显示
+            doUser();
         }
+    }
+
+    /**
+     * 加载用户信息并显示
+     */
+    private void doUser() {
+        // 1.读取本地保存的用户信息
+        User user = ((BaseActivity) this.getActivity()).readUser();
+        // 2.获取对象信息，并设置给相应的视图显示。
+        tvMeName.setText(user.getName());
+        Picasso.with(this.getActivity())
+                .load(user.getImageurl())
+                .placeholder(R.drawable.my_user_default)
+                .error(R.drawable.my_user_default)
+                .into(ivMeIcon);
     }
 
     /**

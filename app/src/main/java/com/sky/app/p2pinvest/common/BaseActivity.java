@@ -89,7 +89,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      *
      * @param user
      */
-    protected void saveUser(User user) {
+    public void saveUser(User user) {
         SharedPreferences sp = this.getSharedPreferences("user_info", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("name", user.getName());
@@ -99,5 +99,20 @@ public abstract class BaseActivity extends AppCompatActivity {
         // 提交事务
         // 必须提交，否则保存不成功
         editor.apply();
+    }
+
+    /**
+     * 读取用户信息
+     *
+     * @return
+     */
+    public User readUser() {
+        SharedPreferences sp = this.getSharedPreferences("user_info", Context.MODE_PRIVATE);
+        User user = new User();
+        user.setName(sp.getString("name", ""));
+        user.setImageurl(sp.getString("imageurl", ""));
+        user.setIscredit(sp.getBoolean("iscredit", false));
+        user.setPhone(sp.getString("phone", ""));
+        return user;
     }
 }

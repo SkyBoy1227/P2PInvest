@@ -198,7 +198,7 @@ public class MyScrollView extends ScrollView {
         Log.e("TAG", "scrollViewMeasuredHeight = " + scrollViewMeasuredHeight);
         // dy >= 0
         int dy = childViewMeasuredHeight - scrollViewMeasuredHeight;
-        if (scrollY <= 0 || (scrollY >= dy && dy >= 0)) {
+        if (scrollY <= 0 || scrollY >= dy) {
             // 按照我们自定义的MyScrollView的方式处理
             return true;
         }

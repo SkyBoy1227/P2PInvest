@@ -1,5 +1,9 @@
 package com.sky.app.p2pinvest.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -8,9 +12,9 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 import com.sky.app.p2pinvest.R;
 import com.sky.app.p2pinvest.common.BaseFragment;
+import com.sky.app.p2pinvest.util.UIUtils;
 
 import butterknife.BindView;
-import butterknife.Unbinder;
 
 /**
  * Created with Android Studio.
@@ -44,7 +48,6 @@ public class MeFragment extends BaseFragment {
     TextView tvTouziZhiguan;
     @BindView(R.id.tv_zichan)
     TextView tvZichan;
-    Unbinder unbinder;
 
     @Override
     protected RequestParams getParams() {
@@ -58,7 +61,34 @@ public class MeFragment extends BaseFragment {
 
     @Override
     protected void initData(String content) {
+        isLogin();
+    }
 
+    /**
+     * 判断用户是否已经登录
+     */
+    private void isLogin() {
+        // 查看本地是否有用户的登录信息
+        SharedPreferences sp = this.getActivity().getSharedPreferences("user_login", Context.MODE_PRIVATE);
+        String name = sp.getString("name", "");
+        if (TextUtils.isEmpty(name)) {
+            // 本地没有保存过用户信息，给出提示：登录
+            doLogin();
+        } else {
+            // 已经登录过，则直接加载用户的信息并显示
+        }
+    }
+
+    /**
+     * 登录
+     */
+    private void doLogin() {
+        new AlertDialog.Builder(this.getActivity())
+                .setTitle("提示")
+                .setMessage("您还没有登录哦！么么~")
+                .setPositiveButton("确定", (dialog, which) -> UIUtils.toast("进入登录界面", false))
+                .setCancelable(false)
+                .show();
     }
 
     /**

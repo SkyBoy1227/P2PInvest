@@ -11,8 +11,9 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 import com.sky.app.p2pinvest.R;
+import com.sky.app.p2pinvest.activity.LoginActivity;
+import com.sky.app.p2pinvest.common.BaseActivity;
 import com.sky.app.p2pinvest.common.BaseFragment;
-import com.sky.app.p2pinvest.util.UIUtils;
 
 import butterknife.BindView;
 
@@ -69,7 +70,7 @@ public class MeFragment extends BaseFragment {
      */
     private void isLogin() {
         // 查看本地是否有用户的登录信息
-        SharedPreferences sp = this.getActivity().getSharedPreferences("user_login", Context.MODE_PRIVATE);
+        SharedPreferences sp = this.getActivity().getSharedPreferences("user_info", Context.MODE_PRIVATE);
         String name = sp.getString("name", "");
         if (TextUtils.isEmpty(name)) {
             // 本地没有保存过用户信息，给出提示：登录
@@ -86,7 +87,10 @@ public class MeFragment extends BaseFragment {
         new AlertDialog.Builder(this.getActivity())
                 .setTitle("提示")
                 .setMessage("您还没有登录哦！么么~")
-                .setPositiveButton("确定", (dialog, which) -> UIUtils.toast("进入登录界面", false))
+                .setPositiveButton("确定", (dialog, which) -> {
+//                    UIUtils.toast("进入登录界面", false);
+                    ((BaseActivity) MeFragment.this.getActivity()).goToActivity(LoginActivity.class, null);
+                })
                 .setCancelable(false)
                 .show();
     }

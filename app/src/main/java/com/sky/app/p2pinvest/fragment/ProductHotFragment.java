@@ -29,8 +29,9 @@ public class ProductHotFragment extends BaseFragment {
     @BindView(R.id.flow_hot)
     FlowLayout flowHot;
 
-    private String[] datas = new String[]{"新手福利计划", "财神道90天计划", "硅谷计划", "30天理财计划", "180天理财计划", "月月升", "中情局投资商业经营", "大学老师购买车辆", "屌丝下海经商计划", "美人鱼影视拍摄投资", "Android培训老师自己周转", "养猪场扩大经营",
-            "旅游公司扩大规模", "摩托罗拉洗钱计划", "铁路局回款计划", "屌丝迎娶白富美计划"
+    private String[] datas = new String[]{"如果你给我的", "和你给别人的一样", "那我就不要了", "不乱于心，不困于情",
+            "向来缘浅，奈何情深", "生如夏花之绚烂", "死如秋叶之静美", "时光静好，与君语",
+            "细水流年，与君同", "繁华落尽，与君老", "宠辱不惊，看庭前花开花落", "去留无意，望天上云卷云舒"
     };
 
     @Override

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 import com.sky.app.p2pinvest.R;
 import com.sky.app.p2pinvest.activity.LoginActivity;
+import com.sky.app.p2pinvest.activity.UserInfoActivity;
 import com.sky.app.p2pinvest.bean.User;
 import com.sky.app.p2pinvest.common.BaseActivity;
 import com.sky.app.p2pinvest.common.BaseFragment;
@@ -21,6 +22,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created with Android Studio.
@@ -144,9 +146,15 @@ public class MeFragment extends BaseFragment {
      */
     @Override
     protected void initTitle() {
-        ivTitleBack.setVisibility(View.GONE);
+        ivTitleBack.setVisibility(View.INVISIBLE);
         tvTitle.setText("我的资产");
-        ivTitleSettings.setVisibility(View.GONE);
+        ivTitleSettings.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.iv_title_settings)
+    public void setting() {
+        // 启动用户信息界面的Activity
+        ((BaseActivity) this.getActivity()).goToActivity(UserInfoActivity.class, null);
     }
 
     @Override

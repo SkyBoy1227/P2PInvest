@@ -2,6 +2,7 @@ package com.sky.app.p2pinvest.fragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
@@ -15,7 +16,9 @@ import com.sky.app.p2pinvest.activity.LoginActivity;
 import com.sky.app.p2pinvest.bean.User;
 import com.sky.app.p2pinvest.common.BaseActivity;
 import com.sky.app.p2pinvest.common.BaseFragment;
+import com.sky.app.p2pinvest.util.BitmapUtils;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import butterknife.BindView;
 
@@ -95,6 +98,19 @@ public class MeFragment extends BaseFragment {
                 .load(user.getImageurl())
                 .placeholder(R.drawable.my_user_default)
                 .error(R.drawable.my_user_default)
+                .transform(new Transformation() {
+                    @Override
+                    public Bitmap transform(Bitmap source) {
+                        Bitmap bitmap = BitmapUtils.circleBitmap(source);
+                        source.recycle();
+                        return bitmap;
+                    }
+
+                    @Override
+                    public String key() {
+                        return "";
+                    }
+                })
                 .into(ivMeIcon);
     }
 

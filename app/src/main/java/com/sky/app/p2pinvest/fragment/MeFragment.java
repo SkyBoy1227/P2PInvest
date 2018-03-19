@@ -99,15 +99,25 @@ public class MeFragment extends BaseFragment {
                 .placeholder(R.drawable.my_user_default)
                 .error(R.drawable.my_user_default)
                 .transform(new Transformation() {
+                    /**
+                     *
+                     * @param source 下载以后的内存中的bitmap对象
+                     * @return
+                     */
                     @Override
                     public Bitmap transform(Bitmap source) {
-                        Bitmap bitmap = BitmapUtils.circleBitmap(source);
+                        // 压缩处理
+                        Bitmap bitmap = BitmapUtils.zoom(source, ivMeIcon.getWidth(), ivMeIcon.getHeight());
+                        // 圆形处理
+                        bitmap = BitmapUtils.circleBitmap(bitmap);
+                        // 回收bitmap资源
                         source.recycle();
                         return bitmap;
                     }
 
                     @Override
                     public String key() {
+                        // 需要保证返回值不能为null。否则报错
                         return "";
                     }
                 })

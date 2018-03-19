@@ -1,8 +1,11 @@
 package com.sky.app.p2pinvest.activity;
 
 import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
@@ -16,6 +19,8 @@ import com.sky.app.p2pinvest.fragment.HomeFragment;
 import com.sky.app.p2pinvest.fragment.InvestFragment;
 import com.sky.app.p2pinvest.fragment.MeFragment;
 import com.sky.app.p2pinvest.fragment.MoreFragment;
+import com.sky.app.p2pinvest.util.PermissionUtils;
+import com.sky.app.p2pinvest.util.UIUtils;
 
 import butterknife.BindView;
 
@@ -34,6 +39,11 @@ public class MainActivity extends BaseActivity {
      * 重置返回
      */
     private static final int WHAT_RESET_BACK = 1;
+
+    /**
+     * 动态申请权限请求码
+     */
+    private static final int REQUEST_CODE = 100;
 
     @BindView(R.id.rb_main_home)
     RadioButton rbMainHome;
@@ -73,8 +83,33 @@ public class MainActivity extends BaseActivity {
         }
     };
 
+    private void handlePermission() {
+        String[] permissions = PermissionUtils.checkPermissions(this);
+        if (permissions.length != 0) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(permissions, REQUEST_CODE);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE) {
+            for (int result : grantResults) {
+                if (result == PackageManager.PERMISSION_DENIED) {
+                    UIUtils.toast("您需要同意全部权限才能正常使用本软件", false);
+                    return;
+                }
+            }
+        }
+    }
+
     @Override
     protected void initData() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            handlePermission();
+        }
         rgMainBottom.setOnCheckedChangeListener((group, checkedId) -> {
             FragmentManager fragmentManager = getSupportFragmentManager();
             transaction = fragmentManager.beginTransaction();

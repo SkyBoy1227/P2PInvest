@@ -24,6 +24,11 @@ import com.sky.app.p2pinvest.R;
 import com.sky.app.p2pinvest.common.BaseActivity;
 import com.sky.app.p2pinvest.util.BitmapUtils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -153,8 +158,45 @@ public class UserInfoActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 数据的存储。（5种）
+     * Bimap:内存层面的图片对象。
+     * <p>
+     * 存储--->内存：
+     * BitmapFactory.decodeFile(String filePath);
+     * 0.
+     * BitmapFactory.decodeStream(InputStream is);
+     * 内存--->存储：
+     * bitmap.compress(Bitmap.CompressFormat.PNG,100,OutputStream os);
+     *
+     * @param bitmap
+     */
     private void saveImage(Bitmap bitmap) {
-
+        File filesDir;
+        // 判断sd卡是否挂载
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            // 路径1：storage/sdcard/Android/data/包名/files
+            filesDir = this.getExternalFilesDir(null);
+        } else {
+            // 路径：data/data/包名/files
+            filesDir = this.getFilesDir();
+        }
+        FileOutputStream fos = null;
+        try {
+            File file = new File(filesDir, "icon.png");
+            fos = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     /**

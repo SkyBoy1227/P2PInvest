@@ -77,6 +77,12 @@ public class UserInfoActivity extends BaseActivity {
         ivTitleSettings.setVisibility(View.INVISIBLE);
     }
 
+    @OnClick(R.id.iv_title_back)
+    public void back() {
+        // 销毁当前的页面
+        this.removeCurrentActivity();
+    }
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_user_info;

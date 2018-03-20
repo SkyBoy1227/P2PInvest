@@ -3,6 +3,8 @@ package com.sky.app.p2pinvest.fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
@@ -20,6 +22,8 @@ import com.sky.app.p2pinvest.common.BaseFragment;
 import com.sky.app.p2pinvest.util.BitmapUtils;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
+
+import java.io.File;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -96,6 +100,12 @@ public class MeFragment extends BaseFragment {
         User user = ((BaseActivity) this.getActivity()).readUser();
         // 2.获取对象信息，并设置给相应的视图显示。
         tvMeName.setText(user.getName());
+        // 判断本地是否已经保存头像的图片，如果有，则不再执行联网操作
+        boolean isExist = readImage();
+        if (isExist) {
+            return;
+        }
+        // 使用Picasso联网获取图片
         Picasso.with(this.getActivity())
                 .load(user.getImageurl())
                 .placeholder(R.drawable.my_user_default)
@@ -160,5 +170,36 @@ public class MeFragment extends BaseFragment {
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_me;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // 读取本地保存的图片
+        readImage();
+    }
+
+    /**
+     * 判断是否存在本地头像，如果存在，则设置到用户头像
+     *
+     * @return
+     */
+    private boolean readImage() {
+        File filesDir;
+        // 判断sd卡是否挂载
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            // 路径1：storage/sdcard/Android/data/包名/files
+            filesDir = this.getActivity().getExternalFilesDir(null);
+        } else {
+            // 路径：data/data/包名/files
+            filesDir = this.getActivity().getFilesDir();
+        }
+        File file = new File(filesDir, "icon.png");
+        if (file.exists()) {
+            Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+            ivMeIcon.setImageBitmap(bitmap);
+            return true;
+        }
+        return false;
     }
 }

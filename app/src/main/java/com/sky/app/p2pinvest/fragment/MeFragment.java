@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 import com.sky.app.p2pinvest.R;
 import com.sky.app.p2pinvest.activity.LoginActivity;
+import com.sky.app.p2pinvest.activity.RechargeActivity;
 import com.sky.app.p2pinvest.activity.UserInfoActivity;
 import com.sky.app.p2pinvest.bean.User;
 import com.sky.app.p2pinvest.common.BaseActivity;
@@ -165,6 +166,22 @@ public class MeFragment extends BaseFragment {
     public void setting() {
         // 启动用户信息界面的Activity
         ((BaseActivity) this.getActivity()).goToActivity(UserInfoActivity.class, null);
+    }
+
+    /**
+     * 设置“充值"操作
+     */
+    @OnClick(R.id.recharge)
+    public void recharge() {
+        ((BaseActivity) this.getActivity()).goToActivity(RechargeActivity.class, null);
+    }
+
+    /**
+     * 设置“提现”操作
+     */
+    @OnClick(R.id.withdraw)
+    public void withdraw() {
+
     }
 
     @Override

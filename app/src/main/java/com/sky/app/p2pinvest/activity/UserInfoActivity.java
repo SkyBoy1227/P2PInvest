@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -113,6 +114,35 @@ public class UserInfoActivity extends BaseActivity {
                 })
                 .setCancelable(false)
                 .show();
+    }
+
+    /**
+     * "退出登录"button的回调方法
+     */
+    @OnClick(R.id.btn_user_logout)
+    public void logout() {
+        // 1.将保存在sp中的数据清除
+        SharedPreferences sp = this.getSharedPreferences("user_info", Context.MODE_PRIVATE);
+        sp.edit().clear().apply();
+        // 2.将本地保存的图片的file删除
+        File filesDir;
+        // 判断sd卡是否挂载
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            // 路径1：storage/sdcard/Android/data/包名/files
+            filesDir = this.getExternalFilesDir(null);
+        } else {
+            // 路径：data/data/包名/files
+            filesDir = this.getFilesDir();
+        }
+        File file = new File(filesDir, "icon.png");
+        if (file.exists()) {
+            // 删除存储中的文件
+            file.delete();
+        }
+        // 3.销毁所有的activity
+        this.removeAll();
+        // 4.重新进入首页面
+        this.goToActivity(MainActivity.class, null);
     }
 
     /**

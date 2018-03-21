@@ -36,4 +36,5 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation project(':ViewPagerIndicator')
     implementation 'com.youth.banner:banner:1.4.10'
+    implementation files('libs/alipaySdk-20180316.jar')
 }

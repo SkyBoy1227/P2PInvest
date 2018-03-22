@@ -94,4 +94,11 @@ public class WelcomeActivity extends AppCompatActivity {
         // 启动动画
         rlWelcome.startAnimation(alphaAnimation);
     }
+
+    @Override
+    protected void onDestroy() {
+        // 移除消息
+        handler.removeCallbacksAndMessages(null);
+        super.onDestroy();
+    }
 }

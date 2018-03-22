@@ -111,7 +111,8 @@ public class RechargeActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 Log.e("TAG", "afterTextChanged: ");
-                if (TextUtils.isEmpty(s.toString())) {
+                String money = s.toString().trim();
+                if (TextUtils.isEmpty(money)) {
                     // 设置button为不可操作的
                     btnRecharge.setClickable(false);
                     // 设置背景颜色

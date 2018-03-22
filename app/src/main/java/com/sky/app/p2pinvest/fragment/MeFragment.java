@@ -17,6 +17,7 @@ import com.sky.app.p2pinvest.R;
 import com.sky.app.p2pinvest.activity.LoginActivity;
 import com.sky.app.p2pinvest.activity.RechargeActivity;
 import com.sky.app.p2pinvest.activity.UserInfoActivity;
+import com.sky.app.p2pinvest.activity.WithDrawActivity;
 import com.sky.app.p2pinvest.bean.User;
 import com.sky.app.p2pinvest.common.BaseActivity;
 import com.sky.app.p2pinvest.common.BaseFragment;
@@ -181,7 +182,7 @@ public class MeFragment extends BaseFragment {
      */
     @OnClick(R.id.withdraw)
     public void withdraw() {
-
+        ((BaseActivity) this.getActivity()).goToActivity(WithDrawActivity.class, null);
     }
 
     @Override

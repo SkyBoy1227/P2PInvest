@@ -14,7 +14,10 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 import com.sky.app.p2pinvest.R;
+import com.sky.app.p2pinvest.activity.BarCharActivity;
+import com.sky.app.p2pinvest.activity.LineCharActivity;
 import com.sky.app.p2pinvest.activity.LoginActivity;
+import com.sky.app.p2pinvest.activity.PieCharActivity;
 import com.sky.app.p2pinvest.activity.RechargeActivity;
 import com.sky.app.p2pinvest.activity.UserInfoActivity;
 import com.sky.app.p2pinvest.activity.WithDrawActivity;
@@ -183,6 +186,21 @@ public class MeFragment extends BaseFragment {
     @OnClick(R.id.withdraw)
     public void withdraw() {
         ((BaseActivity) this.getActivity()).goToActivity(WithDrawActivity.class, null);
+    }
+
+    @OnClick(R.id.tv_touzi)
+    public void startLineChart() {
+        ((BaseActivity) this.getActivity()).goToActivity(LineCharActivity.class, null);
+    }
+
+    @OnClick(R.id.tv_touzi_zhiguan)
+    public void startBarChart() {
+        ((BaseActivity) this.getActivity()).goToActivity(BarCharActivity.class, null);
+    }
+
+    @OnClick(R.id.tv_zichan)
+    public void startPieChart() {
+        ((BaseActivity) this.getActivity()).goToActivity(PieCharActivity.class, null);
     }
 
     @Override

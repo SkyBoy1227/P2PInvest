@@ -39,4 +39,5 @@ dependencies {
     implementation files('libs/alipaysdk.jar')
     implementation files('libs/alipaysecsdk.jar')
     implementation files('libs/alipayutdid.jar')
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 }

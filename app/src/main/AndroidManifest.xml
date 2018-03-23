@@ -45,6 +45,9 @@
         <activity android:name=".activity.UserInfoActivity" />
         <activity android:name=".activity.RechargeActivity" />
         <activity android:name=".activity.WithDrawActivity" />
+        <activity android:name=".activity.LineCharActivity" />
+        <activity android:name=".activity.BarCharActivity" />
+        <activity android:name=".activity.PieCharActivity" />
 
         <!-- alipay sdk begin -->
 

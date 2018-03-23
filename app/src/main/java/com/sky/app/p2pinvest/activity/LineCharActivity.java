@@ -122,11 +122,11 @@ public class LineCharActivity extends BaseActivity {
 
         LineDataSet d1 = new LineDataSet(e1, "New DataSet (1)");
         // 设置折线的宽度
-        d1.setLineWidth(2.5f);
+        d1.setLineWidth(4.5f);
         // 设置小圆圈的尺寸
         d1.setCircleRadius(4.5f);
         // 设置高亮的颜色
-        d1.setHighLightColor(Color.rgb(244, 0, 0));
+        d1.setHighLightColor(Color.rgb(192, 255, 62));
         // 是否显示小圆圈对应的数值
         d1.setDrawValues(true);
 

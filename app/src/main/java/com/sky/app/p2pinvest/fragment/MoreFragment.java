@@ -1,5 +1,7 @@
 package com.sky.app.p2pinvest.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -11,12 +13,13 @@ import com.sky.app.p2pinvest.R;
 import com.sky.app.p2pinvest.activity.UserRegisterActivity;
 import com.sky.app.p2pinvest.common.BaseActivity;
 import com.sky.app.p2pinvest.common.BaseFragment;
+import com.sky.app.p2pinvest.util.UIUtils;
 
 import butterknife.BindView;
 
 /**
  * Created with Android Studio.
- * 描述: ${DESCRIPTION}
+ * 描述: 更多页
  * Date: 2018/3/5
  * Time: 21:06
  *
@@ -45,6 +48,8 @@ public class MoreFragment extends BaseFragment {
     @BindView(R.id.tv_more_about)
     TextView tvMoreAbout;
 
+    private SharedPreferences sp;
+
     @Override
     protected RequestParams getParams() {
         return null;
@@ -57,7 +62,34 @@ public class MoreFragment extends BaseFragment {
 
     @Override
     protected void initData(String content) {
+        // 初始化SharedPreferences
+        sp = this.getActivity().getSharedPreferences("secret_protected", Context.MODE_PRIVATE);
         userRegister();
+        getGestureStatus();
+        setGesturePassword();
+    }
+
+    /**
+     * 获取当前设置手势密码的ToggleButton的状态
+     */
+    private void getGestureStatus() {
+        boolean isOpen = sp.getBoolean("isOpen", false);
+        toggleMore.setChecked(isOpen);
+    }
+
+    /**
+     * 设置手势密码
+     */
+    private void setGesturePassword() {
+        toggleMore.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                UIUtils.toast("开启了手势密码", false);
+                sp.edit().putBoolean("isOpen", true).apply();
+            } else {
+                UIUtils.toast("关闭了手势密码", false);
+                sp.edit().putBoolean("isOpen", false).apply();
+            }
+        });
     }
 
     /**

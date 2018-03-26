@@ -22,7 +22,7 @@ import butterknife.OnClick;
 
 /**
  * Created with Android Studio.
- * 描述: ${DESCRIPTION}
+ * 描述: 注册界面
  * Date: 2018/3/26
  * Time: 11:49
  *

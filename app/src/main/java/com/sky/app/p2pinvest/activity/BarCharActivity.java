@@ -37,8 +37,8 @@ public class BarCharActivity extends BaseActivity {
     TextView tvTitle;
     @BindView(R.id.iv_title_settings)
     ImageView ivTitleSettings;
-    @BindView(R.id.line_chart)
-    BarChart lineChart;
+    @BindView(R.id.bar_chart)
+    BarChart barChart;
 
     /**
      * 声明字体库
@@ -50,12 +50,13 @@ public class BarCharActivity extends BaseActivity {
         mTf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
         Description description = new Description();
         description.setText("华为正与各方谈判，计划推出区块链智能手机");
-        lineChart.setDrawGridBackground(false);
+        barChart.setDescription(description);
+        barChart.setDrawGridBackground(false);
         // 是否绘制柱状图的背景
-        lineChart.setDrawBarShadow(false);
+        barChart.setDrawBarShadow(false);
 
         // 获取x轴对象
-        XAxis xAxis = lineChart.getXAxis();
+        XAxis xAxis = barChart.getXAxis();
         // 设置x轴的显示位置
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         // 设置x轴的字体
@@ -66,7 +67,7 @@ public class BarCharActivity extends BaseActivity {
         xAxis.setDrawAxisLine(true);
 
         // 获取左边y轴对象
-        YAxis leftAxis = lineChart.getAxisLeft();
+        YAxis leftAxis = barChart.getAxisLeft();
         // 设置y轴的字体
         leftAxis.setTypeface(mTf);
         // 参数1：左边y轴提供的区间的个数。 参数2：是否均匀分布这几个区间。 false：均匀。 true：不均匀
@@ -76,7 +77,7 @@ public class BarCharActivity extends BaseActivity {
         // this replaces setStartAtZero(true)
         leftAxis.setAxisMinimum(0f);
 
-        YAxis rightAxis = lineChart.getAxisRight();
+        YAxis rightAxis = barChart.getAxisRight();
         rightAxis.setEnabled(false);
 
         // 提供柱状图的数据
@@ -84,11 +85,11 @@ public class BarCharActivity extends BaseActivity {
         barData.setValueTypeface(mTf);
 
         // set data
-        lineChart.setData(barData);
-        lineChart.setFitBars(true);
+        barChart.setData(barData);
+        barChart.setFitBars(true);
 
         // 设置y轴方向的动画
-        lineChart.animateY(700);
+        barChart.animateY(700);
     }
 
     @Override

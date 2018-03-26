@@ -1,6 +1,7 @@
 package com.sky.app.p2pinvest.activity;
 
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -65,6 +66,16 @@ public class LoginActivity extends BaseActivity {
     public void back() {
         removeAll();
         goToActivity(MainActivity.class, null);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            removeAll();
+            goToActivity(MainActivity.class, null);
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
     }
 
     /**

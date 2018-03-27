@@ -2,6 +2,8 @@ package com.sky.app.p2pinvest.fragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -10,6 +12,7 @@ import android.widget.ToggleButton;
 
 import com.loopj.android.http.RequestParams;
 import com.sky.app.p2pinvest.R;
+import com.sky.app.p2pinvest.activity.GestureEditActivity;
 import com.sky.app.p2pinvest.activity.UserRegisterActivity;
 import com.sky.app.p2pinvest.common.BaseActivity;
 import com.sky.app.p2pinvest.common.BaseFragment;
@@ -63,7 +66,7 @@ public class MoreFragment extends BaseFragment {
     @Override
     protected void initData(String content) {
         // 初始化SharedPreferences
-        sp = this.getActivity().getSharedPreferences("secret_protected", Context.MODE_PRIVATE);
+        sp = this.getActivity().getSharedPreferences("secret_protect", Context.MODE_PRIVATE);
         userRegister();
         getGestureStatus();
         setGesturePassword();
@@ -83,11 +86,33 @@ public class MoreFragment extends BaseFragment {
     private void setGesturePassword() {
         toggleMore.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                UIUtils.toast("开启了手势密码", false);
-                sp.edit().putBoolean("isOpen", true).apply();
+//                UIUtils.toast("开启了手势密码", false);
+//                sp.edit().putBoolean("isOpen", true).apply();
+                String inputCode = sp.getString("inputCode", "");
+                if (TextUtils.isEmpty(inputCode)) {
+                    new AlertDialog.Builder(MoreFragment.this.getActivity())
+                            .setTitle("设置手势密码")
+                            .setMessage("是否现在设置手势密码")
+                            .setPositiveButton("确定", (dialog, which) -> {
+                                sp.edit().putBoolean("isOpen", true).apply();
+//                                toggleMore.setChecked(true);
+                                // 开启新的activity:
+                                ((BaseActivity) MoreFragment.this.getActivity()).goToActivity(GestureEditActivity.class, null);
+                            })
+                            .setNegativeButton("取消", (dialog, which) -> {
+                                sp.edit().putBoolean("isOpen", false).apply();
+                                toggleMore.setChecked(false);
+                            })
+                            .show();
+                } else {
+                    UIUtils.toast("开启了手势密码", false);
+                    sp.edit().putBoolean("isOpen", true).apply();
+//                    toggleMore.setChecked(true);
+                }
             } else {
                 UIUtils.toast("关闭了手势密码", false);
                 sp.edit().putBoolean("isOpen", false).apply();
+//                toggleMore.setChecked(false);
             }
         });
     }

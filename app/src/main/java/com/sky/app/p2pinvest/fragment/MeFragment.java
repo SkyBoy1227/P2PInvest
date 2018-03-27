@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 import com.sky.app.p2pinvest.R;
 import com.sky.app.p2pinvest.activity.BarCharActivity;
+import com.sky.app.p2pinvest.activity.GestureVerifyActivity;
 import com.sky.app.p2pinvest.activity.LineCharActivity;
 import com.sky.app.p2pinvest.activity.LoginActivity;
 import com.sky.app.p2pinvest.activity.PieCharActivity;
@@ -101,6 +102,12 @@ public class MeFragment extends BaseFragment {
      * 加载用户信息并显示
      */
     private void doUser() {
+        // 判断一下，是否开启了手势密码。如果开启：先输入手势密码
+        SharedPreferences sp = this.getActivity().getSharedPreferences("secret_protect", Context.MODE_PRIVATE);
+        boolean isOpen = sp.getBoolean("isOpen", false);
+        if (isOpen) {
+            ((BaseActivity) this.getActivity()).goToActivity(GestureVerifyActivity.class, null);
+        }
         // 1.读取本地保存的用户信息
         User user = ((BaseActivity) this.getActivity()).readUser();
         // 2.获取对象信息，并设置给相应的视图显示。

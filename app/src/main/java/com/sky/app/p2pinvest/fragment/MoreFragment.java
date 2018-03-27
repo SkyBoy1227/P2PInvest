@@ -70,6 +70,21 @@ public class MoreFragment extends BaseFragment {
         userRegister();
         getGestureStatus();
         setGesturePassword();
+        resetGesturePassword();
+    }
+
+    /**
+     * 重置手势密码
+     */
+    private void resetGesturePassword() {
+        tvMoreReset.setOnClickListener(v -> {
+            boolean checked = toggleMore.isChecked();
+            if (checked) {
+                ((BaseActivity) this.getActivity()).goToActivity(GestureEditActivity.class, null);
+            } else {
+                UIUtils.toast("手势密码操作已关闭，请开启后再设置", false);
+            }
+        });
     }
 
     /**

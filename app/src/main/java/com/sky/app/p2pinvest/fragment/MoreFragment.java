@@ -1,7 +1,9 @@
 package com.sky.app.p2pinvest.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
@@ -42,14 +44,16 @@ public class MoreFragment extends BaseFragment {
     ToggleButton toggleMore;
     @BindView(R.id.tv_more_reset)
     TextView tvMoreReset;
-    @BindView(R.id.rl_contact)
-    RelativeLayout rlContact;
+    @BindView(R.id.rl_more_contact)
+    RelativeLayout rlMoreContact;
     @BindView(R.id.tv_more_feedback)
     TextView tvMoreFeedback;
     @BindView(R.id.tv_more_share)
     TextView tvMoreShare;
     @BindView(R.id.tv_more_about)
     TextView tvMoreAbout;
+    @BindView(R.id.tv_more_phone)
+    TextView tvMorePhone;
 
     private SharedPreferences sp;
 
@@ -71,6 +75,26 @@ public class MoreFragment extends BaseFragment {
         getGestureStatus();
         setGesturePassword();
         resetGesturePassword();
+        contactService();
+    }
+
+    /**
+     * 联系客服
+     */
+    private void contactService() {
+        rlMoreContact.setOnClickListener(v -> {
+            String phone = tvMorePhone.getText().toString();
+            new AlertDialog.Builder(this.getActivity())
+                    .setTitle("联系客服")
+                    .setMessage("是否现在联系客服")
+                    .setPositiveButton("确定", (dialog, which) -> {
+                        Intent intent = new Intent(Intent.ACTION_CALL);
+                        intent.setData(Uri.parse("tel:" + phone));
+                        startActivity(intent);
+                    })
+                    .setNegativeButton("取消", null)
+                    .show();
+        });
     }
 
     /**

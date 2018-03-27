@@ -67,7 +67,7 @@
                 android:background="@color/divider_line" />
 
             <RelativeLayout
-                android:id="@+id/rl_contact"
+                android:id="@+id/rl_more_contact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -78,6 +78,7 @@
                     android:text="联系客服" />
 
                 <TextView
+                    android:id="@+id/tv_more_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"

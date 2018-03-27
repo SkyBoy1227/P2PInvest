@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -173,5 +174,11 @@ public class GestureEditActivity extends Activity implements View.OnClickListene
         }
 
         return true;
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        // 防止用户通过返回键退出当前页面
+        return keyCode == KeyEvent.KEYCODE_BACK || super.onKeyUp(keyCode, event);
     }
 }

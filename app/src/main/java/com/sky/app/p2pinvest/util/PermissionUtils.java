@@ -20,7 +20,9 @@ import java.util.List;
 public class PermissionUtils {
     public static final String[] PERMISSIONS = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE};
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CALL_PHONE
+    };
 
     /**
      * 获取需要动态申请的权限数组

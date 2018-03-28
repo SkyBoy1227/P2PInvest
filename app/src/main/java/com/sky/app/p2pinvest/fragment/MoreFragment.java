@@ -1,9 +1,12 @@
 package com.sky.app.p2pinvest.fragment;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
@@ -19,6 +22,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.sky.app.p2pinvest.R;
+import com.sky.app.p2pinvest.activity.AboutInvestActivity;
 import com.sky.app.p2pinvest.activity.GestureEditActivity;
 import com.sky.app.p2pinvest.activity.UserRegisterActivity;
 import com.sky.app.p2pinvest.common.AppNetConfig;
@@ -90,6 +94,14 @@ public class MoreFragment extends BaseFragment {
         contactService();
         commitFeedback();
         share();
+        aboutInvest();
+    }
+
+    /**
+     * 关于P2P金融
+     */
+    private void aboutInvest() {
+        tvMoreAbout.setOnClickListener(v -> ((BaseActivity) this.getActivity()).goToActivity(AboutInvestActivity.class, null));
     }
 
     /**
@@ -182,7 +194,11 @@ public class MoreFragment extends BaseFragment {
                     .setPositiveButton("确定", (dialog, which) -> {
                         Intent intent = new Intent(Intent.ACTION_CALL);
                         intent.setData(Uri.parse("tel:" + phone));
-                        startActivity(intent);
+                        if (ActivityCompat.checkSelfPermission(MoreFragment.this.getActivity(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                            UIUtils.toast("请您同意通话权限后再使用该功能", false);
+                            return;
+                        }
+                        MoreFragment.this.getActivity().startActivity(intent);
                     })
                     .setNegativeButton("取消", null)
                     .show();

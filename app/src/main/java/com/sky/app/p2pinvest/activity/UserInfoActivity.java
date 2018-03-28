@@ -1,10 +1,12 @@
 package com.sky.app.p2pinvest.activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,6 +16,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +27,7 @@ import android.widget.TextView;
 import com.sky.app.p2pinvest.R;
 import com.sky.app.p2pinvest.common.BaseActivity;
 import com.sky.app.p2pinvest.util.BitmapUtils;
+import com.sky.app.p2pinvest.util.UIUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -105,6 +109,10 @@ public class UserInfoActivity extends BaseActivity {
                             break;
                         case 1:
                             // 图库
+                            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                                UIUtils.toast("请您同意访问设备权限后再使用该功能", false);
+                                return;
+                            }
                             Intent picture = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                             startActivityForResult(picture, PICTURE);
                             break;

@@ -57,6 +57,7 @@
         <activity android:name=".activity.UserRegisterActivity" />
         <activity android:name=".activity.GestureEditActivity" />
         <activity android:name=".activity.GestureVerifyActivity" />
+        <activity android:name=".activity.AboutInvestActivity" />
 
         <!-- alipay sdk begin -->
 
@@ -82,7 +83,7 @@
             android:windowSoftInputMode="stateHidden|adjustResize">
 
             <intent-filter>
-                <data android:scheme="tencent24e7ffbdf81f5" />
+                <data android:scheme="tencent100371282" />
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.BROWSABLE" />

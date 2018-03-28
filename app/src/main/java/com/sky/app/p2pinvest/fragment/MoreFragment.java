@@ -7,15 +7,21 @@ import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.sky.app.p2pinvest.R;
 import com.sky.app.p2pinvest.activity.GestureEditActivity;
 import com.sky.app.p2pinvest.activity.UserRegisterActivity;
+import com.sky.app.p2pinvest.common.AppNetConfig;
 import com.sky.app.p2pinvest.common.BaseActivity;
 import com.sky.app.p2pinvest.common.BaseFragment;
 import com.sky.app.p2pinvest.util.UIUtils;
@@ -57,6 +63,11 @@ public class MoreFragment extends BaseFragment {
 
     private SharedPreferences sp;
 
+    /**
+     * 反馈的部门
+     */
+    private String department = "不确定";
+
     @Override
     protected RequestParams getParams() {
         return null;
@@ -76,6 +87,49 @@ public class MoreFragment extends BaseFragment {
         setGesturePassword();
         resetGesturePassword();
         contactService();
+        commitFeedback();
+    }
+
+    /**
+     * 提交反馈信息
+     */
+    private void commitFeedback() {
+        tvMoreFeedback.setOnClickListener(v -> {
+            // 提供一个View
+            View view = View.inflate(this.getActivity(), R.layout.view_feedback, null);
+            RadioGroup radioGroup = view.findViewById(R.id.rg_feedback);
+            EditText editText = view.findViewById(R.id.et_feedback_content);
+            radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+                RadioButton radioButton = group.findViewById(checkedId);
+                // 获取反馈的部门
+                department = radioButton.getText().toString();
+            });
+            new AlertDialog.Builder(this.getActivity())
+                    .setView(view)
+                    .setPositiveButton("发送", (dialog, which) -> {
+                        // 获取反馈的信息
+                        String content = editText.getText().toString();
+                        // 联网请求服务器，发送反馈信息
+                        AsyncHttpClient client = new AsyncHttpClient();
+                        String url = AppNetConfig.FEEDBACK;
+                        RequestParams params = new RequestParams();
+                        params.put("department", department);
+                        params.put("content", content);
+                        client.post(url, params, new AsyncHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(String content) {
+                                UIUtils.toast("发送反馈信息成功", false);
+                            }
+
+                            @Override
+                            public void onFailure(Throwable error, String content) {
+                                UIUtils.toast("发送反馈信息失败！", false);
+                            }
+                        });
+                    })
+                    .setNegativeButton("取消", null)
+                    .show();
+        });
     }
 
     /**

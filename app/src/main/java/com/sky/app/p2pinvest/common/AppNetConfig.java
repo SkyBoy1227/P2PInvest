@@ -14,12 +14,12 @@ public class AppNetConfig {
     /**
      * ip地址
      */
-    public static final String IPADDRESS = "192.168.56.1";
+    public static final String IPADDRESS = "222.85.156.50";
 
     /**
      * 服务器基本地址
      */
-    public static final String BASE_URL = "http://" + IPADDRESS + ":8080/P2PInvest/";
+    public static final String BASE_URL = "http://" + IPADDRESS + ":81/P2PInvest/";
 
     /**
      * 访问“全部理财”产品

@@ -1,6 +1,7 @@
 package com.sky.app.p2pinvest.activity;
 
 import android.annotation.SuppressLint;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Handler;
@@ -171,6 +172,21 @@ public class MainActivity extends BaseActivity {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
+    }
+
+    /**
+     * 获取当前来自于哪个渠道
+     *
+     * @return
+     */
+    private String getChannel() {
+        try {
+            PackageManager pm = getPackageManager();
+            ApplicationInfo appInfo = pm.getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
+            return appInfo.metaData.getString("UMENG_CHANNEL");
+        } catch (PackageManager.NameNotFoundException ignored) {
+        }
+        return "";
     }
 
     @Override

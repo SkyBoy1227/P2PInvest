@@ -94,7 +94,7 @@ public class LineCharActivity extends BaseActivity {
     protected void initTitle() {
         ivTitleBack.setVisibility(View.VISIBLE);
         tvTitle.setText("折线图demo");
-        ivTitleSettings.setVisibility(View.VISIBLE);
+        ivTitleSettings.setVisibility(View.INVISIBLE);
     }
 
     @OnClick(R.id.iv_title_back)

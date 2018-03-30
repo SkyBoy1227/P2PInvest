@@ -152,35 +152,33 @@ public abstract class LoadingPage extends FrameLayout {
             loadData();
             return;
         }
-        UIUtils.getHandler().postDelayed(() -> {
-            AsyncHttpClient client = new AsyncHttpClient();
-            client.post(url(), params(), new AsyncHttpResponseHandler() {
-                @Override
-                public void onSuccess(String content) {
-                    if (TextUtils.isEmpty(content)) {
-                        // "" or null
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.post(url(), params(), new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(String content) {
+                if (TextUtils.isEmpty(content)) {
+                    // "" or null
 //                    stateCurrent = STATE_EMPTY;
-                        resultState = ResultState.EMPTY;
-                        resultState.setContent("");
-                    } else {
-//                    stateCurrent = STATE_SUCCESS;
-                        resultState = ResultState.SUCCESS;
-                        resultState.setContent(content);
-                    }
-//                showSafePage();
-                    loadData();
-                }
-
-                @Override
-                public void onFailure(Throwable error, String content) {
-//                stateCurrent = STATE_ERROR;
-                    resultState = ResultState.ERROR;
+                    resultState = ResultState.EMPTY;
                     resultState.setContent("");
-//                showSafePage();
-                    loadData();
+                } else {
+//                    stateCurrent = STATE_SUCCESS;
+                    resultState = ResultState.SUCCESS;
+                    resultState.setContent(content);
                 }
-            });
-        }, 2000);
+//                showSafePage();
+                loadData();
+            }
+
+            @Override
+            public void onFailure(Throwable error, String content) {
+//                stateCurrent = STATE_ERROR;
+                resultState = ResultState.ERROR;
+                resultState.setContent("");
+//                showSafePage();
+                loadData();
+            }
+        });
     }
 
     /**

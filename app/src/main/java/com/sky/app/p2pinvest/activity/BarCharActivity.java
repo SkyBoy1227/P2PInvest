@@ -96,7 +96,7 @@ public class BarCharActivity extends BaseActivity {
     protected void initTitle() {
         ivTitleBack.setVisibility(View.VISIBLE);
         tvTitle.setText("柱状图demo");
-        ivTitleSettings.setVisibility(View.VISIBLE);
+        ivTitleSettings.setVisibility(View.INVISIBLE);
     }
 
     @OnClick(R.id.iv_title_back)

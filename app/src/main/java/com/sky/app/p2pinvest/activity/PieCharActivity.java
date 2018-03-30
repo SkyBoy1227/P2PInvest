@@ -91,7 +91,7 @@ public class PieCharActivity extends BaseActivity {
     protected void initTitle() {
         ivTitleBack.setVisibility(View.VISIBLE);
         tvTitle.setText("饼状图demo");
-        ivTitleSettings.setVisibility(View.VISIBLE);
+        ivTitleSettings.setVisibility(View.INVISIBLE);
     }
 
     @OnClick(R.id.iv_title_back)

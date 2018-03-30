@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.os.SystemClock;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -229,7 +228,6 @@ public class WelcomeActivity extends AppCompatActivity {
                         progressDialog.incrementProgressBy(len);
                         // 更新dialog的进度
                         fos.write(buffer, 0, len);
-                        SystemClock.sleep(1);
                     }
                     handler.sendEmptyMessage(DOWNLOAD_SUCCESS);
                 } else {

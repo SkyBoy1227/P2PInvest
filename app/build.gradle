@@ -13,7 +13,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -89,7 +89,6 @@ dependencies {
     implementation files('libs/alipaysecsdk.jar')
     implementation files('libs/alipayutdid.jar')
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
-    implementation 'com.7heaven.widgets:gesturelock:1.3'
     implementation project(':GestureLock')
     implementation files('libs/MobCommons-2018.0308.1404.jar')
     implementation files('libs/MobTools-2018.0307.2123.jar')

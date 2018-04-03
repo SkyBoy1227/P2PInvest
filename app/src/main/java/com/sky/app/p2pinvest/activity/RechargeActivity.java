@@ -131,7 +131,7 @@ public class RechargeActivity extends BaseActivity {
     protected void initTitle() {
         ivTitleBack.setVisibility(View.VISIBLE);
         tvTitle.setText("充值");
-        ivTitleSettings.setVisibility(View.VISIBLE);
+        ivTitleSettings.setVisibility(View.INVISIBLE);
     }
 
     @Override

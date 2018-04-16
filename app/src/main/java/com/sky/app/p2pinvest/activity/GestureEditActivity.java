@@ -1,9 +1,7 @@
 package com.sky.app.p2pinvest.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,9 +14,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sky.app.p2pinvest.R;
+import com.sky.app.p2pinvest.common.BaseActivity;
 import com.sky.gesturelock.widget.GestureContentView;
 import com.sky.gesturelock.widget.GestureDrawline;
 import com.sky.gesturelock.widget.LockIndicator;
+
+import butterknife.BindView;
 
 /**
  * Created with Android Studio.
@@ -29,7 +30,7 @@ import com.sky.gesturelock.widget.LockIndicator;
  * @author 晏琦云
  * @version ${VERSION}
  */
-public class GestureEditActivity extends Activity implements View.OnClickListener {
+public class GestureEditActivity extends BaseActivity implements View.OnClickListener {
     /**
      * 手机号码
      */
@@ -42,13 +43,21 @@ public class GestureEditActivity extends Activity implements View.OnClickListene
      * 首次提示绘制手势密码，可以选择跳过
      */
     public static final String PARAM_IS_FIRST_ADVICE = "PARAM_IS_FIRST_ADVICE";
-    private TextView mTextTitle;
-    private TextView mTextCancel;
-    private LockIndicator mLockIndicator;
-    private TextView mTextTip;
-    private FrameLayout mGestureContainer;
+
+    @BindView(R.id.text_title)
+    TextView mTextTitle;
+    @BindView(R.id.text_cancel)
+    TextView mTextCancel;
+    @BindView(R.id.lock_indicator)
+    LockIndicator mLockIndicator;
+    @BindView(R.id.text_tip)
+    TextView mTextTip;
+    @BindView(R.id.gesture_container)
+    FrameLayout mGestureContainer;
+    @BindView(R.id.text_reset)
+    TextView mTextReset;
+
     private GestureContentView mGestureContentView;
-    private TextView mTextReset;
     private String mParamSetUpcode = null;
     private String mParamPhoneNumber;
     private boolean mIsFirstInput = true;
@@ -59,11 +68,19 @@ public class GestureEditActivity extends Activity implements View.OnClickListene
     private SharedPreferences mSharedPreferences = null;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gesture_edit);
+    protected void initData() {
         setUpViews();
         setUpListeners();
+    }
+
+    @Override
+    protected void initTitle() {
+
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_gesture_edit;
     }
 
     private void setUpViews() {
@@ -101,7 +118,7 @@ public class GestureEditActivity extends Activity implements View.OnClickListene
 
                         Toast.makeText(GestureEditActivity.this, "设置成功", Toast.LENGTH_SHORT).show();
                         mGestureContentView.clearDrawlineState(0L);
-                        GestureEditActivity.this.finish();
+                        GestureEditActivity.this.removeCurrentActivity();
                     } else {
                         mTextTip.setText(Html.fromHtml("<font color='#c70c1e'>与上一次绘制不一致，请重新绘制</font>"));
 
@@ -149,7 +166,6 @@ public class GestureEditActivity extends Activity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
             case R.id.text_cancel:
                 this.finish();
@@ -160,8 +176,6 @@ public class GestureEditActivity extends Activity implements View.OnClickListene
                 updateCodeList("");
                 mTextTip.setText(getString(R.string.set_gesture_pattern));
                 break;
-
-
             default:
                 break;
         }

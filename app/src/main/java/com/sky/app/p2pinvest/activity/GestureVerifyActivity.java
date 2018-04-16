@@ -1,6 +1,5 @@
 package com.sky.app.p2pinvest.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,8 +16,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sky.app.p2pinvest.R;
+import com.sky.app.p2pinvest.common.BaseActivity;
 import com.sky.gesturelock.widget.GestureContentView;
 import com.sky.gesturelock.widget.GestureDrawline;
+
+import butterknife.BindView;
 
 /**
  * Created with Android Studio.
@@ -29,7 +31,7 @@ import com.sky.gesturelock.widget.GestureDrawline;
  * @author 晏琦云
  * @version ${VERSION}
  */
-public class GestureVerifyActivity extends Activity implements View.OnClickListener {
+public class GestureVerifyActivity extends BaseActivity implements View.OnClickListener {
     /**
      * 手机号码
      */
@@ -38,51 +40,60 @@ public class GestureVerifyActivity extends Activity implements View.OnClickListe
      * 意图
      */
     public static final String PARAM_INTENT_CODE = "PARAM_INTENT_CODE";
-    private RelativeLayout mTopLayout;
-    private TextView mTextTitle;
-    private TextView mTextCancel;
-    private ImageView mImgUserLogo;
-    private TextView mTextPhoneNumber;
-    private TextView mTextTip;
-    private FrameLayout mGestureContainer;
+
+    @BindView(R.id.top_layout)
+    RelativeLayout mTopLayout;
+    @BindView(R.id.text_title)
+    TextView mTextTitle;
+    @BindView(R.id.text_cancel)
+    TextView mTextCancel;
+    @BindView(R.id.user_logo)
+    ImageView mImgUserLogo;
+    @BindView(R.id.text_phone_number)
+    TextView mTextPhoneNumber;
+    @BindView(R.id.text_tip)
+    TextView mTextTip;
+    @BindView(R.id.gesture_container)
+    FrameLayout mGestureContainer;
+    @BindView(R.id.text_forget_gesture)
+    TextView mTextForget;
+    @BindView(R.id.text_other_account)
+    TextView mTextOther;
+
     private GestureContentView mGestureContentView;
-    private TextView mTextForget;
-    private TextView mTextOther;
     private String mParamPhoneNumber;
     private long mExitTime = 0;
     private int mParamIntentCode;
     private SharedPreferences mSharedPreferences;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_gesture_verify);
-
-        ObtainExtraData();
+    protected void initData() {
+        obtainExtraData();
 
         setUpViews();
 
         setUpListeners();
     }
 
-    private void ObtainExtraData() {
-        mParamPhoneNumber = getIntent().getStringExtra(PARAM_PHONE_NUMBER);
-        mParamIntentCode = getIntent().getIntExtra(PARAM_INTENT_CODE, 0);
+    @Override
+    protected void initTitle() {
+
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_gesture_verify;
+    }
+
+    private void obtainExtraData() {
+        Bundle bundle = getIntent().getBundleExtra("data");
+        mParamPhoneNumber = bundle.getString(PARAM_PHONE_NUMBER);
+        mParamIntentCode = bundle.getInt(PARAM_INTENT_CODE, 0);
         mSharedPreferences = this.getSharedPreferences("secret_protect", Context.MODE_PRIVATE);
     }
 
     private void setUpViews() {
-        mTopLayout = (RelativeLayout) findViewById(R.id.top_layout);
-        mTextTitle = (TextView) findViewById(R.id.text_title);
-        mTextCancel = (TextView) findViewById(R.id.text_cancel);
-        mImgUserLogo = (ImageView) findViewById(R.id.user_logo);
-        mTextPhoneNumber = (TextView) findViewById(R.id.text_phone_number);
-        mTextTip = (TextView) findViewById(R.id.text_tip);
-        mGestureContainer = (FrameLayout) findViewById(R.id.gesture_container);
-        mTextForget = (TextView) findViewById(R.id.text_forget_gesture);
-        mTextOther = (TextView) findViewById(R.id.text_other_account);
-
+        mTextPhoneNumber.setText(getProtectedMobile(mParamPhoneNumber));
         String inputCode = mSharedPreferences.getString("inputCode", "1235789");
         // 初始化一个显示各个点的viewGroup
         mGestureContentView = new GestureContentView(this, true, inputCode,
@@ -100,7 +111,7 @@ public class GestureVerifyActivity extends Activity implements View.OnClickListe
 
                         Toast.makeText(GestureVerifyActivity.this, "密码正确", Toast.LENGTH_SHORT).show();
 
-                        GestureVerifyActivity.this.finish();
+                        GestureVerifyActivity.this.removeCurrentActivity();
                     }
 
                     @Override

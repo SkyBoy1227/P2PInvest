@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -106,7 +107,10 @@ public class MeFragment extends BaseFragment {
         SharedPreferences sp = this.getActivity().getSharedPreferences("secret_protect", Context.MODE_PRIVATE);
         boolean isOpen = sp.getBoolean("isOpen", false);
         if (isOpen) {
-            ((BaseActivity) this.getActivity()).goToActivity(GestureVerifyActivity.class, null);
+            Bundle bundle = new Bundle();
+            User user = ((BaseActivity) getActivity()).readUser();
+            bundle.putString(GestureVerifyActivity.PARAM_PHONE_NUMBER, user.getPhone());
+            ((BaseActivity) getActivity()).goToActivity(GestureVerifyActivity.class, bundle);
         }
         // 1.读取本地保存的用户信息
         User user = ((BaseActivity) this.getActivity()).readUser();
